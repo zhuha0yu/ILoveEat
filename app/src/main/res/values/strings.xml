@@ -22,4 +22,27 @@
     <string name="btn_price_2">Price▲</string>
     <string name="btn_prefer_2">Prefer▲</string>
     <string name="btn_nationality_2">Nationality▲</string>
+    <string-array name="Nationality">
+        <item>Nationality</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+    <string-array name="Prefer">
+        <item>Prefer</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+    <string-array name="Price">
+        <item>Price</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>
