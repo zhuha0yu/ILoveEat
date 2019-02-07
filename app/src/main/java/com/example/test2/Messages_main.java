@@ -1,26 +1,23 @@
 package com.example.test2;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Explore_main.OnFragmentInteractionListener} interface
+ * {@link Messages_main.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Explore_main#newInstance} factory method to
+ * Use the {@link Messages_main#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Explore_main extends Fragment {
+public class Messages_main extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,7 +29,7 @@ public class Explore_main extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Explore_main() {
+    public Messages_main() {
         // Required empty public constructor
     }
 
@@ -42,11 +39,11 @@ public class Explore_main extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Explore_main.
+     * @return A new instance of fragment Messages_main.
      */
     // TODO: Rename and change types and number of parameters
-    public static Explore_main newInstance(String param1, String param2) {
-        Explore_main fragment = new Explore_main();
+    public static Messages_main newInstance(String param1, String param2) {
+        Messages_main fragment = new Messages_main();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,14 +58,13 @@ public class Explore_main extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-     //   setSpi();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore_main, container, false);
+        return inflater.inflate(R.layout.fragment_messages_main, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -109,24 +105,4 @@ public class Explore_main extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    public void setSpi()
-    {
-
-    Spinner spinner = (Spinner) getView().findViewById(R.id.spi_nationality);
-    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
-
-    spinner = (Spinner) getView().findViewById(R.id.spi_prefer);
-    adapter = ArrayAdapter.createFromResource(getContext(),R.array.Prefer, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
-
-    spinner = (Spinner) getView().findViewById(R.id.spi_price);
-    adapter = ArrayAdapter.createFromResource(getContext(),R.array.Price, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
-
-    }
-
 }
