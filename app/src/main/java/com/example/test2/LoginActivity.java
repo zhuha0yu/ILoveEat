@@ -3,6 +3,7 @@ package com.example.test2;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.text_email);
         populateAutoComplete();
-//mEmailView.clearFocus();
+
         mPasswordView = (EditText) findViewById(R.id.text_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -82,12 +83,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-
+mEmailView.clearFocus();
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_signin);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+               attemptLogin();
             }
         });
 
@@ -190,7 +191,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask.execute((Void) null);
         }
     }
-
+    public void regstart(View view)
+    {
+        Intent intent_reg=new Intent(getBaseContext(),RegActivity.class);
+        startActivity(intent_reg);
+    }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
@@ -348,6 +353,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             editor.putString("UserEmail",email);
             editor.commit();
         }
+
     }
 }
 

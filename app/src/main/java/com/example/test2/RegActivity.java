@@ -94,7 +94,13 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+    @Override
+protected void onStart()
+    {
+        setspi();
+        super.onStart();
 
+    }
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -190,7 +196,13 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
             mAuthTask.execute((Void) null);
         }
     }
-
+    public void setspi()
+    {
+        Spinner spinner = (Spinner) findViewById(R.id.spi_nationality_reg);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
@@ -346,13 +358,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
             mAuthTask = null;
             showProgress(false);
         }
-        public void setspi()
-        {
-            Spinner spinner = (Spinner) findViewById(R.id.spi_nationality);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
-        }
+
 
     }
 }

@@ -74,10 +74,11 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/but"
+                android:id="@+id/btn_reg"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="regstart"
                 android:text="@string/action_reg" />
 
         </LinearLayout>
