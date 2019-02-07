@@ -3,7 +3,6 @@ package com.example.test2;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -28,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -66,12 +66,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_reg);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.text_email);
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-//mEmailView.clearFocus();
-        mPasswordView = (EditText) findViewById(R.id.text_password);
+
+        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.btn_signin);
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,7 +198,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 1;
+        return password.length() > 4;
     }
 
     /**
@@ -274,7 +274,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
+                new ArrayAdapter<>(RegActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -316,7 +316,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
 
-            savelogindetail(mEmail);
+            for (String credential : DUMMY_CREDENTIALS) {
+                String[] pieces = credential.split(":");
+                if (pieces[0].equals(mEmail)) {
+                    // Account exists, return true if the password matches.
+                    return pieces[1].equals(mPassword);
+                }
+            }
 
             // TODO: register the new account here.
             return true;
@@ -340,14 +346,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
-        protected void savelogindetail(String email)
+        public void setspi()
         {
-            SharedPreferences sp=getSharedPreferences ("LoginDetails", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putBoolean("IfLogin",true);
-            editor.putString("UserEmail",email);
-            editor.commit();
+            Spinner spinner = (Spinner) findViewById(R.id.spi_nationality);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
         }
+
     }
 }
 

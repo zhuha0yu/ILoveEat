@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
         transaction.add(R.id.layout_fragment_main,messages_main);
         transaction.hide(profile_main);
         transaction.hide(messages_main);
-       transaction.commit();
+        transaction.commit();
 
     }
     @Override

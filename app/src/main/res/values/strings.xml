@@ -46,6 +46,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="username">Username</string>
     <string name="btn_logout">Log Out</string>
+    <string name="title_activity_reg">Register</string>
+    <string name="btn_sign_up" >Finish Register</>
+    <string name="Password_repeat">Repeat Password</string>
 
 
 </resources>

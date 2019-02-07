@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,8 @@ public class Explore_main extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-     //   setSpi();
+
+
     }
 
     @Override
@@ -69,6 +72,7 @@ public class Explore_main extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_explore_main, container, false);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -94,6 +98,11 @@ public class Explore_main extends Fragment {
         super.onDetach();
         mListener = null;
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        setSpi();
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -112,20 +121,20 @@ public class Explore_main extends Fragment {
     public void setSpi()
     {
 
-    Spinner spinner = (Spinner) getView().findViewById(R.id.spi_nationality);
-    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
+        Spinner spinner = (Spinner) getActivity().findViewById(R.id.spi_nationality);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-    spinner = (Spinner) getView().findViewById(R.id.spi_prefer);
-    adapter = ArrayAdapter.createFromResource(getContext(),R.array.Prefer, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
+        spinner = (Spinner) getActivity().findViewById(R.id.spi_prefer);
+        adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.Prefer, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
-    spinner = (Spinner) getView().findViewById(R.id.spi_price);
-    adapter = ArrayAdapter.createFromResource(getContext(),R.array.Price, android.R.layout.simple_spinner_item);
-    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    spinner.setAdapter(adapter);
+        spinner = (Spinner) getActivity().findViewById(R.id.spi_price);
+        adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.Price, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
     }
 
