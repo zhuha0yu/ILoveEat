@@ -52,4 +52,7 @@
 
     <!-- String for login page ZZH -->
     <string name="text_login">We provide personalized comments and dish recommendation for every user. You can get every dish you want here and prevent hanging in the restaurant.</string>
+    <string name="sweet">Sweet</string>
+    <string name="spicy">Spicy:</string>
+    <string name="salty">Salty:</string>
 </resources>

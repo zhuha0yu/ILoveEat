@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -29,6 +30,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.donkingliang.labels.LabelsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,18 +63,24 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mPasswordrepeatView;
+    private EditText mUsernameView;
     private View mProgressView;
     private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_reg);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.email_reg);
         populateAutoComplete();
+        mPasswordView = (EditText) findViewById(R.id.password_reg);
+        mPasswordrepeatView = (EditText) findViewById(R.id.passwordrepeat_reg);
+        mUsernameView = (EditText) findViewById(R.id.username_reg);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -83,7 +92,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.btn_finishreg);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,6 +107,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
 protected void onStart()
     {
         setspi();
+        setlabels();
         super.onStart();
 
     }
@@ -203,6 +213,41 @@ protected void onStart()
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
+public void setlabels()
+{
+    LabelsView labelsView;
+    labelsView = (LabelsView) findViewById(R.id.label_sweet);
+    ArrayList<String> label = new ArrayList<>();
+    label.add("No");
+    label.add("Little");
+    label.add("Very");
+    labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
+
+    labelsView = (LabelsView) findViewById(R.id.label_spicy);
+    label = new ArrayList<>();
+    label.add("No");
+    label.add("Little");
+    label.add("Very");
+    labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
+
+    labelsView = (LabelsView) findViewById(R.id.label_salty);
+    label = new ArrayList<>();
+    label.add("No");
+    label.add("Little");
+    label.add("Very");
+
+    labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
+
+
+
+}
+
+
+
+
+
+
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
