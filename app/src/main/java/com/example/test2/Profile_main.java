@@ -2,12 +2,17 @@ package com.example.test2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.service.autofill.FillEventHistory;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
@@ -91,7 +96,19 @@ public class Profile_main extends Fragment {
         super.onDetach();
         mListener = null;
     }
+@Override
+public void onStart()
+{
 
+    Button btn_signinout=(Button)getActivity().findViewById(R.id.btn_signin_out) ;
+    btn_signinout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            btn_signin_out();
+        }
+    });
+    super.onStart();
+}
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -108,4 +125,32 @@ public class Profile_main extends Fragment {
     }
 
 
+    public void btn_signin_out()
+    {
+
+        SharedPreferences sp=getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
+        Boolean LoginExists=sp.getBoolean("IfLogin",false);
+        String userEmail=sp.getString("UserEmail","");
+        Button btn_signinout=(Button)getActivity().findViewById(R.id.btn_signin_out) ;
+        if(LoginExists)
+        {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("IfLogin",false);
+            editor.commit();
+            new  AlertDialog.Builder(this.getContext())
+                    .setTitle("Log out successful!")
+                    .setMessage("You have successfully log out  from Iloveeat!" )
+                    .setPositiveButton("Ok" ,  null )
+
+                    .show();
+
+            btn_signinout.setText(R.string.action_sign_in);
+        }
+        else
+            {
+            Intent intent_login = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent_login);
+            btn_signinout.setText(R.string.btn_logout);
+        }
+    }
 }

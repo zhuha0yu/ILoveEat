@@ -103,11 +103,7 @@ public void startlogin()
 
     startActivity(intent);
 }
-public void btn_signin_out_method(View view)
-{
-        Intent intent_login=new Intent(this,LoginActivity.class);
-        startActivity(intent_login);
-}
+
 
 
 

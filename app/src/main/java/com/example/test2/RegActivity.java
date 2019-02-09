@@ -81,16 +81,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
         mPasswordrepeatView = (EditText) findViewById(R.id.passwordrepeat_reg);
         mUsernameView = (EditText) findViewById(R.id.username_reg);
 
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+
 
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_finishreg);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -100,7 +91,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
             }
         });
 
-        mLoginFormView = findViewById(R.id.login_form);
+        mLoginFormView = findViewById(R.id.reg_form);
         mProgressView = findViewById(R.id.login_progress);
     }
     @Override
@@ -172,7 +163,7 @@ protected void onStart()
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-
+        String passwordrep=mPasswordrepeatView.getText().toString();
         boolean cancel = false;
         View focusView = null;
 
@@ -192,6 +183,12 @@ protected void onStart()
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
+        }
+        else if(!isPasswordSame(password,passwordrep))
+        {
+            mPasswordrepeatView.setError(getString(R.string.warn_repeatpass));
+            focusView = mPasswordrepeatView;
+            cancel=true;
         }
 
         if (cancel) {
@@ -221,14 +218,14 @@ public void setlabels()
     label.add("No");
     label.add("Little");
     label.add("Very");
-    labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
+    labelsView.setLabels(label);
 
     labelsView = (LabelsView) findViewById(R.id.label_spicy);
     label = new ArrayList<>();
     label.add("No");
     label.add("Little");
     label.add("Very");
-    labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
+    labelsView.setLabels(label);
 
     labelsView = (LabelsView) findViewById(R.id.label_salty);
     label = new ArrayList<>();
@@ -236,10 +233,7 @@ public void setlabels()
     label.add("Little");
     label.add("Very");
 
-    labelsView.setLabels(label); //直接设置一个字符串数组就可以了。
-
-
-
+    labelsView.setLabels(label);
 }
 
 
@@ -256,6 +250,10 @@ public void setlabels()
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
+    }
+    private boolean isPasswordSame(String password,String passwordrep) {
+        //TODO: Replace this with your own logic
+        return password == passwordrep;
     }
 
     /**

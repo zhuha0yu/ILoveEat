@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 /**
@@ -137,5 +138,6 @@ public class Explore_main extends Fragment {
         spinner.setAdapter(adapter);
 
     }
+
 
 }

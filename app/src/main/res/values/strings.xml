@@ -23,6 +23,7 @@
     <string name="btn_price_2">Price▲</string>
     <string name="btn_prefer_2">Prefer▲</string>
     <string name="btn_nationality_2">Nationality▲</string>
+    <string name="warn_repeatpass">Repeat password must be same</string>
     <string-array name="Nationality">
         <item>Nationality</item>
         <item>Venus</item>

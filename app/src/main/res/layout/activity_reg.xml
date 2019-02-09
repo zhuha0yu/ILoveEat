@@ -29,7 +29,7 @@
         android:visibility="gone" />
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/reg_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -113,47 +113,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
-    <android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_sweet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/sweet"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <com.donkingliang.labels.LabelsView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/label_sweet"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:labelBackground="@drawable/label_bg"
-            app:labelTextColor="@drawable/label_text"
-            app:labelTextPaddingBottom="5dp"
-            app:labelTextPaddingLeft="10dp"
-            app:labelTextPaddingRight="10dp"
-            app:labelTextPaddingTop="5dp"
-            app:labelTextSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/text_sweet"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lineMargin="10dp"
-            app:maxLines="3"
-            app:maxSelect="1"
-            app:selectType="SINGLE"
-            app:wordMargin="10dp" />
-    </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/text_sweet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/sweet"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.donkingliang.labels.LabelsView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/label_sweet"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:labelBackground="@drawable/label_bg"
+                    app:labelTextColor="@drawable/label_text"
+                    app:labelTextPaddingBottom="5dp"
+                    app:labelTextPaddingLeft="10dp"
+                    app:labelTextPaddingRight="10dp"
+                    app:labelTextPaddingTop="5dp"
+                    app:labelTextSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/text_sweet"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lineMargin="10dp"
+                    app:maxLines="3"
+                    app:maxSelect="1"
+                    app:selectType="SINGLE"
+                    app:wordMargin="10dp" />
+            </android.support.constraint.ConstraintLayout>
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -195,6 +197,7 @@
                     app:selectType="SINGLE"
                     app:wordMargin="10dp" />
             </android.support.constraint.ConstraintLayout>
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
