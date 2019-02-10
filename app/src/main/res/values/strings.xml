@@ -53,7 +53,13 @@
 
     <!-- String for login page ZZH -->
     <string name="text_login">We provide personalized comments and dish recommendation for every user. You can get every dish you want here and prevent hanging in the restaurant.</string>
-    <string name="sweet">Sweet</string>
+    <string name="sweet">Sweet:</string>
     <string name="spicy">Spicy:</string>
     <string name="salty">Salty:</string>
+    <string name="text_change_profile">New preferences, modify something you want to change:</string>
+    <string name="change_email">Change your Email</string>
+    <string name="change_password">Change your password</string>
+    <string name="text_change_pass_rep">Repeat changed password</string>
+    <string name="change_username">Change your username</string>
+    <string name="btn_submit">Submit and verify password</string>
 </resources>

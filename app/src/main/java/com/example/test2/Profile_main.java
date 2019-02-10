@@ -11,8 +11,14 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.donkingliang.labels.LabelsView;
+
+import java.util.ArrayList;
 
 
 /**
@@ -107,6 +113,8 @@ public void onStart()
             btn_signin_out();
         }
     });
+    setlabels();
+    setspi();
     super.onStart();
 }
     /**
@@ -124,7 +132,38 @@ public void onStart()
         void onFragmentInteraction(Uri uri);
     }
 
+    public void setspi()
+    {
+        Spinner spinner = (Spinner) getActivity().findViewById(R.id.spi_nationality_pro);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+    public void setlabels()
+    {
+        LabelsView labelsView;
+        labelsView = (LabelsView) getActivity().findViewById(R.id.label_sweet_p);
+        ArrayList<String> label = new ArrayList<>();
+        label.add("No");
+        label.add("Little");
+        label.add("Very");
+        labelsView.setLabels(label);
 
+        labelsView = (LabelsView) getActivity().findViewById(R.id.label_spicy_p);
+        label = new ArrayList<>();
+        label.add("No");
+        label.add("Little");
+        label.add("Very");
+        labelsView.setLabels(label);
+
+        labelsView = (LabelsView) getActivity().findViewById(R.id.label_salty_p);
+        label = new ArrayList<>();
+        label.add("No");
+        label.add("Little");
+        label.add("Very");
+
+        labelsView.setLabels(label);
+    }
     public void btn_signin_out()
     {
 

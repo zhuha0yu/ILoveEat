@@ -78,6 +78,7 @@
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/passwordrepeat_reg"
+                    style="@style/Base.V7.Widget.AppCompat.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/Password_repeat"
