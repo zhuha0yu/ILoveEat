@@ -37,6 +37,7 @@ public class Profile_main extends Fragment {
     private Boolean LoginExists=false;
     private SharedPreferences sp;
     private  String useremail;
+    private Button btn_signinout;
     private View  mProfileFormView;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -68,6 +69,7 @@ public class Profile_main extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        sp =getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -109,19 +111,39 @@ public class Profile_main extends Fragment {
 public void onStart()
 {
 
-    Button btn_signinout=(Button)getActivity().findViewById(R.id.btn_signin_out) ;
+    this.btn_signinout=(Button)getActivity().findViewById(R.id.btn_signin_out) ;
     btn_signinout.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             btn_signin_out();
         }
     });
+
     setlabels();
     setspi();
-    setprofiles();
+
     super.onStart();
 }
+@Override
+    public void onHiddenChanged(boolean hidden) {
+// TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        if (hidden) {// 不在最前端界面显示
 
+        } else {// 重新显示到最前端中
+            this.LoginExists=sp.getBoolean("IfLogin",false);
+            setprofiles();
+
+
+        }
+    }
+    @Override
+    public void onResume()
+    {
+        this.LoginExists=sp.getBoolean("IfLogin",false);
+        setprofiles();
+        super.onResume();
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -174,10 +196,12 @@ public void onStart()
         mProfileFormView = getActivity().findViewById(R.id.loged_in_form);
        if(!LoginExists)
        {
+           btn_signinout.setText(R.string.action_sign_in);
            mProfileFormView.setVisibility(View.GONE);
        }
        else
        {
+           btn_signinout.setText(R.string.btn_logout);
            mProfileFormView.setVisibility(View.VISIBLE);
        }
 
@@ -185,10 +209,10 @@ public void onStart()
     public void btn_signin_out()
     {
 
-        SharedPreferences sp =getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
+        sp =getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
         this.LoginExists=sp.getBoolean("IfLogin",false);
         this.useremail=sp.getString("UserEmail","");
-        Button btn_signinout=(Button)getActivity().findViewById(R.id.btn_signin_out) ;
+
         if(this.LoginExists)
         {
             SharedPreferences.Editor editor = sp.edit();
@@ -202,14 +226,13 @@ public void onStart()
 
                     .show();
 
-            btn_signinout.setText(R.string.action_sign_in);
+
         }
         else
             {
             Intent intent_login = new Intent(getActivity(), LoginActivity.class);
+
             startActivity(intent_login);
-            btn_signinout.setText(R.string.btn_logout);
-            LoginExists=true;
         }
         setprofiles();
     }
