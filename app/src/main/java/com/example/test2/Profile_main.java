@@ -34,7 +34,10 @@ public class Profile_main extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private Boolean LoginExists=false;
+    private SharedPreferences sp;
+    private  String useremail;
+    private View  mProfileFormView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -115,8 +118,10 @@ public void onStart()
     });
     setlabels();
     setspi();
+    setprofiles();
     super.onStart();
 }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -164,16 +169,30 @@ public void onStart()
 
         labelsView.setLabels(label);
     }
+    public void setprofiles()
+    {
+        mProfileFormView = getActivity().findViewById(R.id.loged_in_form);
+       if(!LoginExists)
+       {
+           mProfileFormView.setVisibility(View.GONE);
+       }
+       else
+       {
+           mProfileFormView.setVisibility(View.VISIBLE);
+       }
+
+    }
     public void btn_signin_out()
     {
 
-        SharedPreferences sp=getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
-        Boolean LoginExists=sp.getBoolean("IfLogin",false);
-        String userEmail=sp.getString("UserEmail","");
+        SharedPreferences sp =getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
+        this.LoginExists=sp.getBoolean("IfLogin",false);
+        this.useremail=sp.getString("UserEmail","");
         Button btn_signinout=(Button)getActivity().findViewById(R.id.btn_signin_out) ;
-        if(LoginExists)
+        if(this.LoginExists)
         {
             SharedPreferences.Editor editor = sp.edit();
+            LoginExists=false;
             editor.putBoolean("IfLogin",false);
             editor.commit();
             new  AlertDialog.Builder(this.getContext())
@@ -190,6 +209,8 @@ public void onStart()
             Intent intent_login = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent_login);
             btn_signinout.setText(R.string.btn_logout);
+            LoginExists=true;
         }
+        setprofiles();
     }
 }
