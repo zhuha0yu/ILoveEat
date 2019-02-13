@@ -19,6 +19,8 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity implements Explore_main.OnFragmentInteractionListener,Messages_main.OnFragmentInteractionListener,Profile_main.OnFragmentInteractionListener{
@@ -41,7 +43,10 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
                     transaction.hide(profile_main);
                     transaction.hide(messages_main);
                     transaction.commit();
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference myRef = database.getReference("message");
 
+                    myRef.setValue("Hello, World!");
                     return true;
                 case R.id.navigation_dashboard:
                     transaction = getSupportFragmentManager().beginTransaction();

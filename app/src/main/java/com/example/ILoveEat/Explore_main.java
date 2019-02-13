@@ -4,11 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,6 +32,12 @@ public class Explore_main extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private View view;//定义view用来设置fragment的layout
+    public RecyclerView mRecyclerView;//定义RecyclerView
+    //定义以goodsentity实体类为对象的数据集合
+    private ArrayList<Food> foodList = new ArrayList<Food>();
+    //自定义recyclerveiw的适配器
+    private CollectRecycleAdapter mRecyclerAdapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,15 +76,58 @@ public class Explore_main extends Fragment {
         }
 
 
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_explore_main, container, false);
+
+        view = inflater.inflate(R.layout.fragment_explore_main, container, false);
+        initRecyclerView();
+
+
+        initData();
+        return view;
 
     }
+    private void initData() {
+        for (int i=0;i<10;i++){
+            Food food=new Food();
+            food.setFoodname("模拟数据"+i);
+            food.setFoodname("100"+i);
+            foodList.add(food);
+        }
+    }
+    private void initRecyclerView() {
+        //获取RecyclerView
+        mRecyclerView=(RecyclerView)view.findViewById(R.id.recycler_explore);
+        //创建adapter
+        mRecyclerAdapter = new CollectRecycleAdapter(getActivity(), foodList);
+        //给RecyclerView设置adapter
+        mRecyclerView.setAdapter(mRecyclerAdapter);
+        //设置layoutManager,可以设置显示效果，是线性布局、grid布局，还是瀑布流布局
+        //参数是：上下文、列表方向（横向还是纵向）、是否倒叙
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        //设置item的分割线
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        //RecyclerView中没有item的监听事件，需要自己在适配器中写一个监听事件的接口。参数根据自定义
+        mRecyclerAdapter.setOnItemClickListener(new CollectRecycleAdapter.OnItemClickListener() {
+            @Override
+            public void OnItemClick(View view, Food data) {
+                //此处进行监听事件的业务处理
+                Toast.makeText(getActivity(),"我是item",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -98,7 +155,10 @@ public class Explore_main extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         setSpi();
+
+
     }
 
     /**
@@ -134,6 +194,5 @@ public class Explore_main extends Fragment {
         spinner.setAdapter(adapter);
 
     }
-
-
 }
+
