@@ -1,11 +1,10 @@
-package com.example.test2;
+package com.example.ILoveEat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.service.autofill.FillEventHistory;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -17,6 +16,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.donkingliang.labels.LabelsView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -36,13 +38,14 @@ public class Profile_main extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private Boolean LoginExists=false;
     private SharedPreferences sp;
-    private  String useremail;
+    private String useremail;
+    private TextView mTextView_username;
     private Button btn_signinout;
     private View  mProfileFormView;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private FirebaseAuth mAuth;
     private OnFragmentInteractionListener mListener;
 
     public Profile_main() {
@@ -75,6 +78,8 @@ public class Profile_main extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
@@ -112,6 +117,7 @@ public void onStart()
 {
 
     this.btn_signinout=(Button)getActivity().findViewById(R.id.btn_signin_out) ;
+    mTextView_username=getActivity().findViewById(R.id.text_username);
     btn_signinout.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -132,6 +138,7 @@ public void onStart()
 
         } else {// 重新显示到最前端中
             this.LoginExists=sp.getBoolean("IfLogin",false);
+
             setprofiles();
 
 
@@ -140,10 +147,25 @@ public void onStart()
     @Override
     public void onResume()
     {
+
+
+
+
         this.LoginExists=sp.getBoolean("IfLogin",false);
         setprofiles();
         super.onResume();
     }
+
+    private void updateUI(FirebaseUser currentUser) {
+        if(currentUser==null)
+        {
+            mTextView_username.setText("");
+            return;
+        }
+        mTextView_username.setText(currentUser.getDisplayName());
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -193,8 +215,12 @@ public void onStart()
     }
     public void setprofiles()
     {
+        mAuth=FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+
         mProfileFormView = getActivity().findViewById(R.id.loged_in_form);
-       if(!LoginExists)
+       if(LoginExists)
        {
            btn_signinout.setText(R.string.action_sign_in);
            mProfileFormView.setVisibility(View.GONE);

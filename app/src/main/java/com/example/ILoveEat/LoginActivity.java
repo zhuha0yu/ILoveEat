@@ -1,8 +1,9 @@
-package com.example.test2;
+package com.example.ILoveEat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,9 +33,26 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -46,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
+    private FirebaseAuth mAuth;
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -64,7 +83,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+private boolean LoginExists;
+private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-mEmailView.clearFocus();
+        mEmailView.clearFocus();
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_signin);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -93,9 +113,10 @@ mEmailView.clearFocus();
                attemptLogin();
             }
         });
-
+        FirebaseApp.initializeApp(this);
         mLoginFormView = findViewById(R.id.email_login_form);
         mProgressView = findViewById(R.id.login_progress);
+        mAuth = FirebaseAuth.getInstance();
     }
 
     private void populateAutoComplete() {
@@ -141,7 +162,14 @@ mEmailView.clearFocus();
         }
     }
 
-
+@Override
+public void onResume()
+{
+    sp =getSharedPreferences ("LoginDetails", MODE_PRIVATE);
+    this.LoginExists=sp.getBoolean("IfLogin",false);
+    if(LoginExists) finish();
+    super.onResume();
+}
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -189,7 +217,7 @@ mEmailView.clearFocus();
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password,this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -306,27 +334,43 @@ mEmailView.clearFocus();
 
         private final String mEmail;
         private final String mPassword;
-
-        UserLoginTask(String email, String password) {
+        private final Activity mActivity;
+        public  Boolean Loginstatus=false;
+        UserLoginTask(String email, String password, Activity activity) {
             mEmail = email;
             mPassword = password;
+            mActivity=activity;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            mAuth.signInWithEmailAndPassword(mEmail, mPassword)
+                    .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("Sign in", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("Sign in", "signInWithEmail:failure", task.getException());
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                                updateUI(null);
+                            }
 
-            savelogindetail(mEmail);
+                            // ...
+                        }
+                    });
 
-            // TODO: register the new account here.
-            return true;
+
+
+
+
+            return Loginstatus;
+
         }
 
         @Override
@@ -335,10 +379,9 @@ mEmailView.clearFocus();
             showProgress(false);
 
             if (success) {
-                finish();
+
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+
             }
         }
 
@@ -347,15 +390,30 @@ mEmailView.clearFocus();
             mAuthTask = null;
             showProgress(false);
         }
-        protected void savelogindetail(String email)
-        {
+        private void updateUI(FirebaseUser user) {
             SharedPreferences sp=getSharedPreferences ("LoginDetails", MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
-            editor.putBoolean("IfLogin",true);
-            editor.putString("UserEmail",email);
+            if(user!=null) {
+                editor.putBoolean("IfLogin", true);
+                Loginstatus=true;
+
+
+                finish();
+            }
+            else
+            {
+                editor.putBoolean("IfLogin", false);
+                Loginstatus=false;
+                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();
+            }
             editor.commit();
         }
 
+
+
     }
+
+
 }
 

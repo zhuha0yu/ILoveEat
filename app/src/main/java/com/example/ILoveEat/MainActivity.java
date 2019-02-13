@@ -1,26 +1,25 @@
-package com.example.test2;
+package com.example.ILoveEat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.webkit.WebView;
 import android.widget.TextView;
 
-import java.io.Console;
+import com.google.firebase.FirebaseApp;
 
-import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class MainActivity extends AppCompatActivity implements Explore_main.OnFragmentInteractionListener,Messages_main.OnFragmentInteractionListener,Profile_main.OnFragmentInteractionListener{
     private FragmentTransaction transaction;
@@ -65,7 +64,9 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseApp.initializeApp(this);
         super.onCreate(savedInstanceState);
+
         SharedPreferences sp=getSharedPreferences ("LoginDetails", MODE_PRIVATE);
         Boolean LoginExists=sp.getBoolean("IfLogin",false);
         String userEmail=sp.getString("UserEmail","");
@@ -89,6 +90,29 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
         transaction.hide(profile_main);
         transaction.hide(messages_main);
         transaction.commit();
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.INTERNET)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.INTERNET},
+                        10);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+
+
+
+
+
 
     }
     @Override

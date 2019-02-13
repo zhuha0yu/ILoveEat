@@ -1,8 +1,11 @@
-package com.example.test2;
+package com.example.ILoveEat;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,22 +22,35 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.donkingliang.labels.LabelsView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -67,7 +83,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
     private EditText mUsernameView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -80,9 +96,6 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
         mPasswordView = (EditText) findViewById(R.id.password_reg);
         mPasswordrepeatView = (EditText) findViewById(R.id.passwordrepeat_reg);
         mUsernameView = (EditText) findViewById(R.id.username_reg);
-
-
-
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_finishreg);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -90,7 +103,8 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
                 attemptLogin();
             }
         });
-
+        FirebaseApp.initializeApp(this);
+        mAuth = FirebaseAuth.getInstance();
         mLoginFormView = findViewById(R.id.reg_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -164,6 +178,7 @@ protected void onStart()
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         String passwordrep=mPasswordrepeatView.getText().toString();
+        String username=mUsernameView.getText().toString();
         boolean cancel = false;
         View focusView = null;
 
@@ -189,6 +204,11 @@ protected void onStart()
             mPasswordrepeatView.setError(getString(R.string.warn_repeatpass));
             focusView = mPasswordrepeatView;
             cancel=true;
+        }else if(isUsernameempty(username))
+        {
+            mUsernameView.setError("You need a username");
+            focusView=mUsernameView;
+            cancel=true;
         }
 
         if (cancel) {
@@ -199,7 +219,8 @@ protected void onStart()
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+
+            mAuthTask = new UserLoginTask(email, password,username,this);
             mAuthTask.execute((Void) null);
         }
     }
@@ -243,17 +264,21 @@ public void setlabels()
 
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
+
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
+
         return password.length() > 4;
     }
     private boolean isPasswordSame(String password,String passwordrep) {
-        //TODO: Replace this with your own logic
-        return password == passwordrep;
+
+        return password.equals( passwordrep);
+    }
+    private boolean isUsernameempty(String username) {
+
+        return username.equals("");
     }
 
     /**
@@ -354,30 +379,71 @@ public void setlabels()
 
         private final String mEmail;
         private final String mPassword;
+        private final Activity c;
+        private final String mUsername;
+        private boolean Loginstatus=false;
+        private String exceptionmessage ="";
+        private int errorcode=0;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password,String username,Activity activity) {
+            c=activity;
             mEmail = email;
             mPassword = password;
+            mUsername=username;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+            mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
+                    .addOnCompleteListener(  c, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("Sign up", "createUserWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                Loginstatus=true;
+                                updateUI(user,null);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("Sign up", "createUserWithEmail:failure", task.getException());
+                                Exception e=task.getException();
+
+                                try {
+                                    throw  e;
+                                } catch (FirebaseAuthWeakPasswordException e1) {
+                                    errorcode=1;
+                                    exceptionmessage="This password is too weak!";
+                                }
+                                catch(FirebaseAuthInvalidCredentialsException e2)
+                                {
+                                    errorcode=2;
+                                    exceptionmessage="This email is invalid!";
+                                }
+                                catch(FirebaseAuthUserCollisionException e3)
+                                {
+                                    errorcode=3;
+                                    exceptionmessage="This email is already in use!";
+                                }
+                                catch (Exception e4)
+                                {
+                                    errorcode=4;
+                                    exceptionmessage="Unknown Error!";
+                                }
+
+
+                                Loginstatus=false;
+
+                                updateUI(null,null);
+                            }
+
+                            // ...
+                        }
+                    });
+
 
             // TODO: register the new account here.
             return true;
@@ -388,12 +454,6 @@ public void setlabels()
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
         }
 
         @Override
@@ -402,7 +462,53 @@ public void setlabels()
             showProgress(false);
         }
 
+        private void updateUI(FirebaseUser user,Exception e) {
+            SharedPreferences sp=getSharedPreferences ("LoginDetails", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            if(user!=null) {
+                editor.putBoolean("IfLogin", true);
+
+
+                setprofile(user,mUsername);
+                finish();
+            }
+            else
+            {
+
+                editor.putBoolean("IfLogin", false);
+                if (errorcode == 1)
+                {
+                    mPasswordView.setError(exceptionmessage);
+                    mPasswordView.requestFocus();
+                }
+                else
+                {
+                    mEmailView.setError(exceptionmessage);
+                    mEmailView.requestFocus();
+                }
+            }
+            editor.commit();
+        }
+        private void setprofile(FirebaseUser user,String username)
+        {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(username)
+
+                    .build();
+
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Log.d("updateprofile", "User profile updated.");
+                            }
+                        }
+                    });
+        }
 
     }
+
+
 }
 
