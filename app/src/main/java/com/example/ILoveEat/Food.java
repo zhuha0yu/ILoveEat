@@ -1,10 +1,10 @@
 package com.example.ILoveEat;
 
 public class Food {
-public String imageurl;
-public String foodid;
-public String foodname;
-public String foodprice;
+private  String imageurl;
+private String foodid;
+private String foodname;
+private String foodprice;
 public Food()
 {
     imageurl=null;

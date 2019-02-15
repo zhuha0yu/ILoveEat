@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAdapter.myViewHodler> {
+public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter_Messages.myViewHodler> {
     private Context context;
-    private ArrayList<Food> FoodList;
+    private ArrayList<Messages> messagesList;
 
     //创建构造函数
-    public CollectRecycleAdapter(Context context, ArrayList<Food> foodList) {
+    public RecycleAdapter_Messages(Context context, ArrayList<Messages> messagesList) {
         //将传递过来的数据，赋值给本地变量
         this.context = context;//上下文
-        this.FoodList = foodList;//实体类数据ArrayList
+        this.messagesList = messagesList;//实体类数据ArrayList
     }
 
     /**
@@ -30,10 +30,30 @@ public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAd
     @Override
     public myViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
         //创建自定义布局
-        View itemView = View.inflate(context, R.layout.sample_food_explore, null);
+        View itemView;
+        switch (viewType)
+        {
+            case 0:
+                itemView= View.inflate(context, R.layout.message_commentliked, null);
+                break;
+            case 1:
+                itemView= View.inflate(context, R.layout.message_commentreplied, null);
+                break;
+            case 2:
+                itemView= View.inflate(context, R.layout.message_system, null);
+                break;
+                default:
+                    itemView= View.inflate(context, R.layout.message_system, null);
+                    break;
+
+        }
+
         return new myViewHodler(itemView);
     }
-
+    @Override
+    public int getItemViewType(int position) {
+        return messagesList.get(position).getMessagetype();
+    }
     /**
      * 绑定数据，数据与view绑定
      *
@@ -43,10 +63,10 @@ public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAd
     @Override
     public void onBindViewHolder(myViewHodler holder, int position) {
         //根据点击位置绑定数据
-        Food data = FoodList.get(position);
+        Messages data = messagesList.get(position);
 //        holder.mItemGoodsImg;
-        holder.mFoodName.setText(data.foodname);//获取实体类中的name字段并设置
-        holder.mFoodPrice.setText(data.foodprice);//获取实体类中的price字段并设置
+//        holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
+ //       holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
 
     }
 
@@ -57,7 +77,7 @@ public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAd
      */
     @Override
     public int getItemCount() {
-        return FoodList.size();
+        return messagesList.size();
     }
 
     //自定义viewhodler
@@ -80,7 +100,7 @@ public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAd
                     //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     //此处回传点击监听事件
                     if(onItemClickListener!=null){
-                        onItemClickListener.OnItemClick(v, FoodList.get(getLayoutPosition()));
+                        onItemClickListener.OnItemClick(v, messagesList.get(getLayoutPosition()));
                     }
                 }
             });
@@ -98,7 +118,7 @@ public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAd
          * @param view 点击的item的视图
          * @param data 点击的item的数据
          */
-        public void OnItemClick(View view, Food data);
+        public void OnItemClick(View view, Messages data);
     }
 
     //需要外部访问，所以需要设置set方法，方便调用

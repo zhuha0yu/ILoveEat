@@ -71,4 +71,12 @@
     <string name="text_4stars">☆★★★★</string>
     <string name="text_5stars">★★★★★</string>
     <string name="text_foodlocation" >Location</string>
+    <string name="text_commentliked_default">Liked your comment on food \"Default food\":</string>
+    <string name="like_comment_dafault">Like your comment!</string>
+    <string name="food_comment_dafault">I love this food!</string>
+    <string name="text_commentreplied_default">Replied your comment on food \"Default food\":</string>
+    <string name="food_comment_reply_dafault">Agree with you!</string>
+    <string name="system">System Message</string>
+    <string name="system_message_default">You were liked by 14 people~</string>
+    <string name="messagetime_default" >1 minutes ago</string>
 </resources>
