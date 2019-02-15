@@ -1,6 +1,7 @@
 package com.example.ILoveEat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -113,7 +114,9 @@ public class Explore_main extends Fragment {
             @Override
             public void OnItemClick(View view, Food data) {
                 //此处进行监听事件的业务处理
-                Toast.makeText(getActivity(),"我是item",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), Food_detailActivity.class);
+
+                startActivity(intent);
             }
         });
     }

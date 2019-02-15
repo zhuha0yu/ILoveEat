@@ -82,7 +82,7 @@ public class Messages_main extends Fragment {
     }
 
     private void initData() {
-        for (int i=0;i<3;i++){
+        for (int i=0;i<8;i++){
             Messages messages=new Messages();
             messages.setMessagetype(i);
             messageList.add(messages);
