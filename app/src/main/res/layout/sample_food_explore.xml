@@ -5,87 +5,101 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cardView"
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@android:color/holo_orange_light"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        tools:targetApi="lollipop">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/text_foodlocation"
-            app:layout_constraintBottom_toTopOf="@+id/textView_stars"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView2"
-            tools:layout_conversion_absoluteHeight="135dp"
-            tools:layout_conversion_absoluteWidth="0dp" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView_food"
-            android:layout_width="144dp"
-            android:layout_height="144dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
-            tools:layout_conversion_absoluteHeight="144dp"
-            tools:layout_conversion_absoluteWidth="144dp" />
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/text_foodlocation"
+                app:layout_constraintBottom_toTopOf="@+id/textView_stars"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                tools:layout_conversion_absoluteHeight="135dp"
+                tools:layout_conversion_absoluteWidth="0dp" />
 
-        <TextView
-            android:id="@+id/textView_foodprice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_foodprice"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView_food"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_conversion_absoluteHeight="85dp"
-            tools:layout_conversion_absoluteWidth="0dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="253dp" />
+            <ImageView
+                android:id="@+id/imageView_food"
+                android:layout_width="144dp"
+                android:layout_height="144dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/ic_launcher"
+                tools:layout_conversion_absoluteHeight="144dp"
+                tools:layout_conversion_absoluteWidth="144dp" />
 
-        <TextView
-            android:id="@+id/textView_foodname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/text_foodname"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView_food"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_conversion_absoluteHeight="32dp"
-            tools:layout_conversion_absoluteWidth="125dp" />
+            <TextView
+                android:id="@+id/textView_foodprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_foodprice"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_food"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_conversion_absoluteHeight="85dp"
+                tools:layout_conversion_absoluteWidth="0dp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="253dp" />
 
-        <TextView
-            android:id="@+id/textView_stars"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/text_default_0stars"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView_food"
-            app:layout_constraintEnd_toStartOf="@+id/textView_foodprice"
-            app:layout_constraintStart_toEndOf="@+id/imageView_food"
-            tools:layout_conversion_absoluteHeight="85dp"
-            tools:layout_conversion_absoluteWidth="0dp" />
+            <TextView
+                android:id="@+id/textView_foodname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/text_foodname"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView_food"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="32dp"
+                tools:layout_conversion_absoluteWidth="125dp" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/textView_stars"
-            app:layout_constraintStart_toEndOf="@+id/imageView_food"
-            app:srcCompat="@drawable/baseline_room_black_24dp"
-            tools:layout_conversion_absoluteHeight="24dp"
-            tools:layout_conversion_absoluteWidth="24dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="253dp" />
+            <TextView
+                android:id="@+id/textView_stars"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/text_default_0stars"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_food"
+                app:layout_constraintEnd_toStartOf="@+id/textView_foodprice"
+                app:layout_constraintStart_toEndOf="@+id/imageView_food"
+                tools:layout_conversion_absoluteHeight="85dp"
+                tools:layout_conversion_absoluteWidth="0dp" />
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/textView_stars"
+                app:layout_constraintStart_toEndOf="@+id/imageView_food"
+                app:srcCompat="@drawable/baseline_room_black_24dp"
+                tools:layout_conversion_absoluteHeight="24dp"
+                tools:layout_conversion_absoluteWidth="24dp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="253dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
