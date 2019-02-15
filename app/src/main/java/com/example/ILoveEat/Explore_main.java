@@ -96,7 +96,7 @@ public class Explore_main extends Fragment {
         for (int i=0;i<10;i++){
             Food food=new Food();
             food.setFoodname("模拟数据"+i);
-            food.setFoodname("100"+i);
+            food.setFoodprice("100"+i);
             foodList.add(food);
         }
     }

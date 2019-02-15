@@ -62,4 +62,13 @@
     <string name="text_change_pass_rep">Repeat changed password</string>
     <string name="change_username">Change your username</string>
     <string name="btn_submit">Submit and verify password</string>
+    <string name="text_foodname">Food Name</string>
+    <string name="text_foodprice">Price</string>
+    <string name="text_default_0stars">☆☆☆☆☆</string>
+    <string name="text_1stars">☆☆☆☆★</string>
+    <string name="text_2stars">☆☆☆★★</string>
+    <string name="text_3stars">☆☆★★★</string>
+    <string name="text_4stars">☆★★★★</string>
+    <string name="text_5stars">★★★★★</string>
+    <string name="text_foodlocation" >Location</string>
 </resources>

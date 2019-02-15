@@ -10,7 +10,7 @@ public Food()
     imageurl=null;
     foodid=null;
     foodname=null;
-    foodprice=null;
+    foodprice="1kr";
 }
 public Food(String imageurl,String foodid,String foodname,String foodprice)
 {
