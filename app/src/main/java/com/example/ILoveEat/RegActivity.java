@@ -463,11 +463,8 @@ public void setlabels()
         }
 
         private void updateUI(FirebaseUser user,Exception e) {
-            SharedPreferences sp=getSharedPreferences ("LoginDetails", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sp.edit();
-            if(user!=null) {
-                editor.putBoolean("IfLogin", true);
 
+            if(user!=null) {
 
                 setprofile(user,mUsername);
                 finish();
@@ -475,7 +472,6 @@ public void setlabels()
             else
             {
 
-                editor.putBoolean("IfLogin", false);
                 if (errorcode == 1)
                 {
                     mPasswordView.setError(exceptionmessage);
@@ -487,7 +483,7 @@ public void setlabels()
                     mEmailView.requestFocus();
                 }
             }
-            editor.commit();
+
         }
         private void setprofile(FirebaseUser user,String username)
         {

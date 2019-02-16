@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-private boolean LoginExists;
+
 private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ private SharedPreferences sp;
                attemptLogin();
             }
         });
-        FirebaseApp.initializeApp(this);
+
         mLoginFormView = findViewById(R.id.email_login_form);
         mProgressView = findViewById(R.id.login_progress);
         mAuth = FirebaseAuth.getInstance();
@@ -165,9 +165,9 @@ private SharedPreferences sp;
 @Override
 public void onResume()
 {
-    sp =getSharedPreferences ("LoginDetails", MODE_PRIVATE);
-    this.LoginExists=sp.getBoolean("IfLogin",false);
-    if(LoginExists) finish();
+    FirebaseUser currentUser = mAuth.getCurrentUser();
+
+    if(currentUser!=null) finish();
     super.onResume();
 }
     /**
@@ -391,23 +391,17 @@ public void onResume()
             showProgress(false);
         }
         private void updateUI(FirebaseUser user) {
-            SharedPreferences sp=getSharedPreferences ("LoginDetails", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sp.edit();
+
             if(user!=null) {
-                editor.putBoolean("IfLogin", true);
-                Loginstatus=true;
-
-
                 finish();
             }
             else
             {
-                editor.putBoolean("IfLogin", false);
-                Loginstatus=false;
+
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
-            editor.commit();
+
         }
 
 

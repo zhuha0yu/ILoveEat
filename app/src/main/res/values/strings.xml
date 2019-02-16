@@ -80,5 +80,12 @@
     <string name="system_message_default">You were liked by 14 people~</string>
     <string name="messagetime_default">1 minutes ago</string>
     <string name="title_activity_food_detail">Food_detail</string>
-
+    <string name="nationality">Nationality</string>
+    <string name="price">Price:</string>
+    <string name="default_price">109 sek</string>
+    <string name="topcomments">Top comments:</string>
+    <string name="writecomment">New Comment</string>
+    <string name="overall">Overall rating:</string>
+    <string name="textedit_writecomments">Write some short comments(Optional)...</string>
+    <string name="submit">Submit</string>
 </resources>

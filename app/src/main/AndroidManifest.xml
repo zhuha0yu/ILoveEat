@@ -15,9 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".WritecommentActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
         <activity
             android:name=".Food_detailActivity"
-            android:label="@string/title_activity_food_detail"></activity>
+            android:label="@string/title_activity_food_detail" />
         <activity
             android:name=".RegActivity"
             android:configChanges="orientation|keyboardHidden"

@@ -36,8 +36,8 @@ public class Profile_main extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Boolean LoginExists=false;
-    private SharedPreferences sp;
+
+
     private String useremail;
     private TextView mTextView_username;
     private Button btn_signinout;
@@ -72,7 +72,7 @@ public class Profile_main extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        sp =getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
+        mAuth=FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -137,7 +137,7 @@ public void onStart()
         if (hidden) {// 不在最前端界面显示
 
         } else {// 重新显示到最前端中
-            this.LoginExists=sp.getBoolean("IfLogin",false);
+
 
             setprofiles();
 
@@ -151,7 +151,7 @@ public void onStart()
 
 
 
-        this.LoginExists=sp.getBoolean("IfLogin",false);
+
         setprofiles();
         super.onResume();
     }
@@ -215,12 +215,12 @@ public void onStart()
     }
     public void setprofiles()
     {
-        mAuth=FirebaseAuth.getInstance();
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
 
         mProfileFormView = getActivity().findViewById(R.id.loged_in_form);
-       if(LoginExists)
+       if(currentUser==null)
        {
            btn_signinout.setText(R.string.action_sign_in);
            mProfileFormView.setVisibility(View.GONE);
@@ -234,17 +234,14 @@ public void onStart()
     }
     public void btn_signin_out()
     {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        sp =getActivity().getSharedPreferences ("LoginDetails", getContext().MODE_PRIVATE);
-        this.LoginExists=sp.getBoolean("IfLogin",false);
-        this.useremail=sp.getString("UserEmail","");
 
-        if(this.LoginExists)
+
+        if(currentUser!=null)
         {
-            SharedPreferences.Editor editor = sp.edit();
-            LoginExists=false;
-            editor.putBoolean("IfLogin",false);
-            editor.commit();
+            mAuth.signOut();
+
             new  AlertDialog.Builder(this.getContext())
                     .setTitle("Log out successful!")
                     .setMessage("You have successfully log out  from Iloveeat!" )

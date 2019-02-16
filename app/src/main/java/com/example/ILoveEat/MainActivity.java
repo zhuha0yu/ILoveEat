@@ -15,17 +15,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.webkit.WebView;
+
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity implements Explore_main.OnFragmentInteractionListener,Messages_main.OnFragmentInteractionListener,Profile_main.OnFragmentInteractionListener{
     private FragmentTransaction transaction;
-
+    private FirebaseAuth mAuth;
     private TextView mTextMessage;
     private FragmentManager fm;
     private Explore_main explore_main;
@@ -43,10 +45,7 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
                     transaction.hide(profile_main);
                     transaction.hide(messages_main);
                     transaction.commit();
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("message");
 
-                    myRef.setValue("Hello, World!");
                     return true;
                 case R.id.navigation_dashboard:
                     transaction = getSupportFragmentManager().beginTransaction();
@@ -71,11 +70,15 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         FirebaseApp.initializeApp(this);
         super.onCreate(savedInstanceState);
-
+/*
         SharedPreferences sp=getSharedPreferences ("LoginDetails", MODE_PRIVATE);
         Boolean LoginExists=sp.getBoolean("IfLogin",false);
         String userEmail=sp.getString("UserEmail","");
-        if(!LoginExists)
+        */
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser==null)
         {
             startlogin();
         }
