@@ -9,15 +9,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter_Messages.myViewHodler> {
+public class RecycleAdapter_comments extends RecyclerView.Adapter<RecycleAdapter_comments.myViewHodler> {
     private Context context;
-    private ArrayList<Messages> messagesList;
+    private ArrayList<Comment> commentList;
 
     //创建构造函数
-    public RecycleAdapter_Messages(Context context, ArrayList<Messages> messagesList) {
+    public RecycleAdapter_comments(Context context, ArrayList<Comment> commentList) {
         //将传递过来的数据，赋值给本地变量
         this.context = context;//上下文
-        this.messagesList = messagesList;//实体类数据ArrayList
+        this.commentList = commentList;//实体类数据ArrayList
     }
 
     /**
@@ -30,31 +30,10 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
     @Override
     public myViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
         //创建自定义布局
-        View itemView;
-  /*      switch (viewType)
-        {
-            case 0:
-                itemView= View.inflate(context, R.layout.message_commentliked, null);
-                break;
-            case 1:
-                itemView= View.inflate(context, R.layout.message_commentreplied, null);
-                break;
-            case 2:
-                itemView= View.inflate(context, R.layout.message_system, null);
-                break;
-                default:
-                    itemView= View.inflate(context, R.layout.message_system, null);
-                    break;
-
-        }
-*/
-        itemView= View.inflate(context, R.layout.comment_layout_fooddetailpage, null);
+        View itemView = View.inflate(context, R.layout.comment_layout_fooddetailpage, null);
         return new myViewHodler(itemView);
     }
-    @Override
-    public int getItemViewType(int position) {
-        return messagesList.get(position).getMessagetype();
-    }
+
     /**
      * 绑定数据，数据与view绑定
      *
@@ -64,10 +43,10 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
     @Override
     public void onBindViewHolder(myViewHodler holder, int position) {
         //根据点击位置绑定数据
-        Messages data = messagesList.get(position);
+        Comment data = commentList.get(position);
 //        holder.mItemGoodsImg;
-//        holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
- //       holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
+       // holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
+     //   holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
 
     }
 
@@ -78,7 +57,7 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
      */
     @Override
     public int getItemCount() {
-        return messagesList.size();
+        return commentList.size();
     }
 
     //自定义viewhodler
@@ -89,9 +68,9 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
 
         public myViewHodler(View itemView) {
             super(itemView);
-            mFoodImg = (ImageView) itemView.findViewById(R.id.imageView_food);
+  /*          mFoodImg = (ImageView) itemView.findViewById(R.id.imageView_food);
             mFoodName = (TextView) itemView.findViewById(R.id.textView_foodname);
-            mFoodPrice = (TextView) itemView.findViewById(R.id.textView_foodprice);
+            mFoodPrice = (TextView) itemView.findViewById(R.id.textView_foodprice);*/
             //点击事件放在adapter中使用，也可以写个接口在activity中调用
             //方法一：在adapter中设置点击事件
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +80,7 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
                     //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     //此处回传点击监听事件
                     if(onItemClickListener!=null){
-                        onItemClickListener.OnItemClick(v, messagesList.get(getLayoutPosition()));
+                        onItemClickListener.OnItemClick(v, commentList.get(getLayoutPosition()));
                     }
                 }
             });
@@ -119,7 +98,7 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
          * @param view 点击的item的视图
          * @param data 点击的item的数据
          */
-        public void OnItemClick(View view, Messages data);
+        public void OnItemClick(View view, Comment data);
     }
 
     //需要外部访问，所以需要设置set方法，方便调用

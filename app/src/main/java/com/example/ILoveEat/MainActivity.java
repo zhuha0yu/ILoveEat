@@ -28,8 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MainActivity extends AppCompatActivity implements Explore_main.OnFragmentInteractionListener,Messages_main.OnFragmentInteractionListener,Profile_main.OnFragmentInteractionListener{
     private FragmentTransaction transaction;
     private FirebaseAuth mAuth;
-    private TextView mTextMessage;
-    private FragmentManager fm;
+
     private Explore_main explore_main;
     private Profile_main profile_main;
     private Messages_main messages_main;
@@ -84,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
         }
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         explore_main=new Explore_main();
         profile_main=new Profile_main();
         messages_main=new Messages_main();
-        fm=getSupportFragmentManager();
+
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.layout_fragment_main,explore_main);
         transaction.add(R.id.layout_fragment_main,profile_main);
