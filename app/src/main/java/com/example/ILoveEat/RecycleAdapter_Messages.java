@@ -31,7 +31,7 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
     public myViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
         //创建自定义布局
         View itemView;
-  /*      switch (viewType)
+       switch (viewType)
         {
             case 0:
                 itemView= View.inflate(context, R.layout.message_commentliked, null);
@@ -47,8 +47,8 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
                     break;
 
         }
-*/
-        itemView= View.inflate(context, R.layout.comment_layout_fooddetailpage, null);
+
+
         return new myViewHodler(itemView);
     }
     @Override
