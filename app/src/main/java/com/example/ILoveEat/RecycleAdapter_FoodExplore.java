@@ -79,7 +79,7 @@ public class RecycleAdapter_FoodExplore extends RecyclerView.Adapter<RecycleAdap
                     //可以选择直接在本位置直接写业务处理
                     //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     //此处回传点击监听事件
-                    if(onItemClickListener!=null){
+                    if (onItemClickListener != null) {
                         onItemClickListener.OnItemClick(v, FoodList.get(getLayoutPosition()));
                     }
                 }

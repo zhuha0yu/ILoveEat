@@ -46,7 +46,10 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -63,7 +66,7 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+        <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -81,6 +84,15 @@
 
             </android.support.design.widget.TextInputLayout>
 
+        <CheckBox
+            android:id="@+id/checkBox_remember"
+            style="@android:style/Widget.DeviceDefault.Light.CompoundButton.CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/rememberaccount"
+            android:textAlignment="viewStart"
+            android:textColor="@android:color/darker_gray" />
             <Button
                 android:id="@+id/btn_signin"
                 style="@style/Widget.AppCompat.Button.Borderless"
@@ -92,7 +104,9 @@
                 android:textStyle="bold"
                 android:layout_marginVertical="20dp" />
 
-            <Button
+
+
+        <Button
                 android:id="@+id/btn_reg"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
@@ -101,6 +115,6 @@
                 android:onClick="regstart"
                 android:text="@string/action_reg" />
 
-        </LinearLayout>
+    </LinearLayout>
     <!--</ScrollView>-->
 </LinearLayout>

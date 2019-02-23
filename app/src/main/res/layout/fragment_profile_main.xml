@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@android:color/holo_orange_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,13 +18,11 @@
 
         <ImageView
             android:id="@+id/img_user"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
             app:layout_constraintEnd_toStartOf="@+id/text_username"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +60,36 @@
             tools:ignore="OnClick" />
     </android.support.constraint.ConstraintLayout>
 
-     <ScrollView
+    <LinearLayout
+        android:id="@+id/linearlayout_buttons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <Button
+            android:id="@+id/button_my_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/mycomments" />
+
+        <Button
+            android:id="@+id/button_change_profiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/change_profile" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/loged_in_form"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -72,10 +99,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearlayout_buttons">
 
         <LinearLayout
-            android:id="@+id/loged_in_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -95,44 +121,54 @@
                 android:text="@string/text_change_profile"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
-            <android.support.design.widget.TextInputLayout
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_verifyemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/textView_verifyemail"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/change_email"
-                    android:inputType="textEmailAddress" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/text_verifyemail"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_resend"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/button_resend"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/change_password"
-                    android:inputType="textPassword" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/resend"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/button_changeemail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/change_email" />
+
+            <Button
+                android:id="@+id/button_changepassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/change_password" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/text_change_pass_rep"
-                    android:inputType="textPassword" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/textedit_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/change_username"

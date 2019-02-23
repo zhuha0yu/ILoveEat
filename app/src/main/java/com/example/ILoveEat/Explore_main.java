@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -75,7 +74,6 @@ public class Explore_main extends Fragment {
         }
 
 
-
     }
 
     @Override
@@ -89,17 +87,19 @@ public class Explore_main extends Fragment {
         return view;
 
     }
+
     private void initData() {
-        for (int i=0;i<10;i++){
-            Food food=new Food();
-            food.setFoodname("模拟数据"+i);
-            food.setFoodprice("100"+i);
+        for (int i = 0; i < 10; i++) {
+            Food food = new Food();
+            food.setFoodname("模拟数据" + i);
+            food.setFoodprice("100" + i);
             foodList.add(food);
         }
     }
+
     private void initRecyclerView() {
         //获取RecyclerView
-        mRecyclerView=(RecyclerView)view.findViewById(R.id.recycler_explore);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_explore);
         //创建adapter
         mRecyclerAdapter = new RecycleAdapter_FoodExplore(getActivity(), foodList);
         //给RecyclerView设置adapter
@@ -120,12 +120,6 @@ public class Explore_main extends Fragment {
             }
         });
     }
-
-
-
-
-
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -151,6 +145,7 @@ public class Explore_main extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -174,21 +169,21 @@ public class Explore_main extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-    public void setSpi()
-    {
+
+    public void setSpi() {
 
         Spinner spinner = (Spinner) getActivity().findViewById(R.id.spi_nationality);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.Nationality, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner = (Spinner) getActivity().findViewById(R.id.spi_prefer);
-        adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.Prefer, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.Prefer, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner = (Spinner) getActivity().findViewById(R.id.spi_price);
-        adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(),R.array.Price, android.R.layout.simple_spinner_item);
+        adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.Price, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 

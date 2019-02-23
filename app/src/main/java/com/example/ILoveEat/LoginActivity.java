@@ -4,23 +4,21 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,28 +29,18 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -83,17 +71,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private CheckBox mCheckbox;
+    private SharedPreferences sp;
 
-private SharedPreferences sp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
+        sp = getSharedPreferences("rememberemail", MODE_PRIVATE);
+        Boolean ischecked = sp.getBoolean("ischecked", false);
+        String email = sp.getString("email", "");
         mEmailView = (AutoCompleteTextView) findViewById(R.id.text_email);
+        if (ischecked) mEmailView.setText(email);
         populateAutoComplete();
-
+        mCheckbox = findViewById(R.id.checkBox_remember);
         mPasswordView = (EditText) findViewById(R.id.text_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -110,7 +102,7 @@ private SharedPreferences sp;
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-               attemptLogin();
+                attemptLogin();
             }
         });
 
@@ -162,14 +154,14 @@ private SharedPreferences sp;
         }
     }
 
-@Override
-public void onResume()
-{
-    FirebaseUser currentUser = mAuth.getCurrentUser();
+    @Override
+    public void onResume() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-    if(currentUser!=null) finish();
-    super.onResume();
-}
+        if (currentUser != null) finish();
+        super.onResume();
+    }
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
@@ -187,7 +179,7 @@ public void onResume()
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-
+        Boolean ischecked = mCheckbox.isChecked();
         boolean cancel = false;
         View focusView = null;
 
@@ -217,15 +209,16 @@ public void onResume()
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password,this);
+            mAuthTask = new UserLoginTask(email, password, ischecked, this);
             mAuthTask.execute((Void) null);
         }
     }
-    public void regstart(View view)
-    {
-        Intent intent_reg=new Intent(getBaseContext(),RegActivity.class);
+
+    public void regstart(View view) {
+        Intent intent_reg = new Intent(getBaseContext(), RegActivity.class);
         startActivity(intent_reg);
     }
+
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
@@ -334,12 +327,15 @@ public void onResume()
 
         private final String mEmail;
         private final String mPassword;
+        private final Boolean ischecked;
         private final Activity mActivity;
-        public  Boolean Loginstatus=false;
-        UserLoginTask(String email, String password, Activity activity) {
+        public Boolean Loginstatus = false;
+
+        UserLoginTask(String email, String password, Boolean ischecked, Activity activity) {
             mEmail = email;
             mPassword = password;
-            mActivity=activity;
+            mActivity = activity;
+            this.ischecked = ischecked;
         }
 
         @Override
@@ -366,9 +362,6 @@ public void onResume()
                     });
 
 
-
-
-
             return Loginstatus;
 
         }
@@ -390,13 +383,14 @@ public void onResume()
             mAuthTask = null;
             showProgress(false);
         }
+
         private void updateUI(FirebaseUser user) {
 
-            if(user!=null) {
+            if (user != null) {
+                saveemail(ischecked, mEmail);
                 finish();
-            }
-            else
-            {
+
+            } else {
 
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -405,9 +399,13 @@ public void onResume()
         }
 
 
-
+        private void saveemail(Boolean ischecked, String email) {
+            sp = getSharedPreferences("rememberemail", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean("ischecked", ischecked);
+            editor.putString("email", email);
+            editor.commit();
+        }
     }
-
-
 }
 

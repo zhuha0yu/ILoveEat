@@ -1,24 +1,24 @@
 package com.example.ILoveEat;
 
 public class Food {
-private  String imageurl;
-private String foodid;
-private String foodname;
-private String foodprice;
-public Food()
-{
-    imageurl=null;
-    foodid=null;
-    foodname=null;
-    foodprice="1kr";
-}
-public Food(String imageurl,String foodid,String foodname,String foodprice)
-{
-    this.imageurl=imageurl;
-    this.foodid=foodid;
-    this.foodname=foodname;
-    this.foodprice=foodprice;
-}
+    private String imageurl;
+    private String foodid;
+    private String foodname;
+    private String foodprice;
+
+    public Food() {
+        imageurl = null;
+        foodid = null;
+        foodname = null;
+        foodprice = "1kr";
+    }
+
+    public Food(String imageurl, String foodid, String foodname, String foodprice) {
+        this.imageurl = imageurl;
+        this.foodid = foodid;
+        this.foodname = foodname;
+        this.foodprice = foodprice;
+    }
 
     public void setFoodid(String foodid) {
         this.foodid = foodid;

@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -75,21 +74,23 @@ public class CommentslistFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view=inflater.inflate(R.layout.fragment_commentslist, container, false);
+        view = inflater.inflate(R.layout.fragment_commentslist, container, false);
         initRecyclerView();
         initData();
         return view;
     }
+
     private void initData() {
-        for (int i=0;i<10;i++){
-            Comment comment=new Comment();
+        for (int i = 0; i < 10; i++) {
+            Comment comment = new Comment();
 
             commentList.add(comment);
         }
     }
+
     private void initRecyclerView() {
         //获取RecyclerView
-        mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerview_comments);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_comments);
         //创建adapter
         mRecyclerAdapter = new RecycleAdapter_comments(getActivity(), commentList);
         //给RecyclerView设置adapter
@@ -109,6 +110,7 @@ public class CommentslistFragment extends Fragment {
             }
         });
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

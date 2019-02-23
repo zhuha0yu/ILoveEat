@@ -45,8 +45,8 @@ public class RecycleAdapter_comments extends RecyclerView.Adapter<RecycleAdapter
         //根据点击位置绑定数据
         Comment data = commentList.get(position);
 //        holder.mItemGoodsImg;
-       // holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
-     //   holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
+        // holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
+        //   holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
 
     }
 
@@ -79,7 +79,7 @@ public class RecycleAdapter_comments extends RecyclerView.Adapter<RecycleAdapter
                     //可以选择直接在本位置直接写业务处理
                     //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     //此处回传点击监听事件
-                    if(onItemClickListener!=null){
+                    if (onItemClickListener != null) {
                         onItemClickListener.OnItemClick(v, commentList.get(getLayoutPosition()));
                     }
                 }

@@ -2,30 +2,23 @@ package com.example.ILoveEat;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import android.widget.TextView;
-
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 
-public class MainActivity extends AppCompatActivity implements Explore_main.OnFragmentInteractionListener,Messages_main.OnFragmentInteractionListener,Profile_main.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements Explore_main.OnFragmentInteractionListener, Messages_main.OnFragmentInteractionListener, Profile_main.OnFragmentInteractionListener {
     private FragmentTransaction transaction;
     private FirebaseAuth mAuth;
 
@@ -77,8 +70,7 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if(currentUser==null)
-        {
+        if (currentUser == null) {
             startlogin();
         }
         setContentView(R.layout.activity_main);
@@ -86,14 +78,14 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        explore_main=new Explore_main();
-        profile_main=new Profile_main();
-        messages_main=new Messages_main();
+        explore_main = new Explore_main();
+        profile_main = new Profile_main();
+        messages_main = new Messages_main();
 
         transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.layout_fragment_main,explore_main);
-        transaction.add(R.id.layout_fragment_main,profile_main);
-        transaction.add(R.id.layout_fragment_main,messages_main);
+        transaction.add(R.id.layout_fragment_main, explore_main);
+        transaction.add(R.id.layout_fragment_main, profile_main);
+        transaction.add(R.id.layout_fragment_main, messages_main);
         transaction.hide(profile_main);
         transaction.hide(messages_main);
         transaction.commit();
@@ -106,36 +98,30 @@ public class MainActivity extends AppCompatActivity implements Explore_main.OnFr
             // Permission is not granted
             // Should we show an explanation?
 
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.INTERNET},
-                        10);
+            // No explanation needed; request the permission
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.INTERNET},
+                    10);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-
-
-
-
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+        }
 
 
     }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
 
-public void startlogin()
-{
-    Intent intent = new Intent(this, LoginActivity.class);
+    public void startlogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
 
-    startActivity(intent);
-}
-
-
+        startActivity(intent);
+    }
 
 
 }

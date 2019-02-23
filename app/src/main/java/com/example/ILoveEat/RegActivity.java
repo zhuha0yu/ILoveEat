@@ -4,23 +4,19 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,13 +27,11 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.donkingliang.labels.LabelsView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -45,12 +39,11 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -84,6 +77,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
     private View mProgressView;
     private View mLoginFormView;
     private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -107,15 +101,17 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
         mAuth = FirebaseAuth.getInstance();
         mLoginFormView = findViewById(R.id.reg_form);
         mProgressView = findViewById(R.id.login_progress);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
     }
+
     @Override
-protected void onStart()
-    {
+    protected void onStart() {
         setspi();
         setlabels();
         super.onStart();
 
     }
+
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -177,8 +173,8 @@ protected void onStart()
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        String passwordrep=mPasswordrepeatView.getText().toString();
-        String username=mUsernameView.getText().toString();
+        String passwordrep = mPasswordrepeatView.getText().toString();
+        String username = mUsernameView.getText().toString();
         boolean cancel = false;
         View focusView = null;
 
@@ -198,17 +194,14 @@ protected void onStart()
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        }
-        else if(!isPasswordSame(password,passwordrep))
-        {
+        } else if (!isPasswordSame(password, passwordrep)) {
             mPasswordrepeatView.setError(getString(R.string.warn_repeatpass));
             focusView = mPasswordrepeatView;
-            cancel=true;
-        }else if(isUsernameempty(username))
-        {
+            cancel = true;
+        } else if (isUsernameempty(username)) {
             mUsernameView.setError("You need a username");
-            focusView=mUsernameView;
-            cancel=true;
+            focusView = mUsernameView;
+            cancel = true;
         }
 
         if (cancel) {
@@ -220,47 +213,48 @@ protected void onStart()
             // perform the user login attempt.
             showProgress(true);
 
-            mAuthTask = new UserLoginTask(email, password,username,this);
+            mAuthTask = new UserLoginTask(email, password, username, this);
             mAuthTask.execute((Void) null);
         }
     }
-    public void setspi()
-    {
+
+    public void verifyemail() {
+        FirebaseUser currentuser = mAuth.getCurrentUser();
+
+    }
+
+
+    public void setspi() {
         Spinner spinner = (Spinner) findViewById(R.id.spi_nationality_reg);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),R.array.Nationality, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(), R.array.Nationality, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
-public void setlabels()
-{
-    LabelsView labelsView;
-    labelsView = (LabelsView) findViewById(R.id.label_sweet);
-    ArrayList<String> label = new ArrayList<>();
-    label.add("No");
-    label.add("Little");
-    label.add("Very");
-    labelsView.setLabels(label);
 
-    labelsView = (LabelsView) findViewById(R.id.label_spicy);
-    label = new ArrayList<>();
-    label.add("No");
-    label.add("Little");
-    label.add("Very");
-    labelsView.setLabels(label);
+    public void setlabels() {
+        LabelsView labelsView;
+        labelsView = (LabelsView) findViewById(R.id.label_sweet);
+        ArrayList<String> label = new ArrayList<>();
+        label.add("No");
+        label.add("Little");
+        label.add("Very");
+        labelsView.setLabels(label);
 
-    labelsView = (LabelsView) findViewById(R.id.label_salty);
-    label = new ArrayList<>();
-    label.add("No");
-    label.add("Little");
-    label.add("Very");
+        labelsView = (LabelsView) findViewById(R.id.label_spicy);
+        label = new ArrayList<>();
+        label.add("No");
+        label.add("Little");
+        label.add("Very");
+        labelsView.setLabels(label);
 
-    labelsView.setLabels(label);
-}
+        labelsView = (LabelsView) findViewById(R.id.label_salty);
+        label = new ArrayList<>();
+        label.add("No");
+        label.add("Little");
+        label.add("Very");
 
-
-
-
-
+        labelsView.setLabels(label);
+    }
 
 
     private boolean isEmailValid(String email) {
@@ -272,10 +266,12 @@ public void setlabels()
 
         return password.length() > 4;
     }
-    private boolean isPasswordSame(String password,String passwordrep) {
 
-        return password.equals( passwordrep);
+    private boolean isPasswordSame(String password, String passwordrep) {
+
+        return password.equals(passwordrep);
     }
+
     private boolean isUsernameempty(String username) {
 
         return username.equals("");
@@ -381,22 +377,22 @@ public void setlabels()
         private final String mPassword;
         private final Activity c;
         private final String mUsername;
-        private boolean Loginstatus=false;
-        private String exceptionmessage ="";
-        private int errorcode=0;
+        private boolean Loginstatus = false;
+        private String exceptionmessage = "";
+        private int errorcode = 0;
 
-        UserLoginTask(String email, String password,String username,Activity activity) {
-            c=activity;
+        UserLoginTask(String email, String password, String username, Activity activity) {
+            c = activity;
             mEmail = email;
             mPassword = password;
-            mUsername=username;
+            mUsername = username;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
 
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
-                    .addOnCompleteListener(  c, new OnCompleteListener<AuthResult>() {
+                    .addOnCompleteListener(c, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -405,39 +401,33 @@ public void setlabels()
                                 Log.d("Sign up", "createUserWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
 
-                                Loginstatus=true;
-                                updateUI(user,null);
+                                Loginstatus = true;
+                                updateUI(user, null);
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("Sign up", "createUserWithEmail:failure", task.getException());
-                                Exception e=task.getException();
+                                Exception e = task.getException();
 
                                 try {
-                                    throw  e;
+                                    throw e;
                                 } catch (FirebaseAuthWeakPasswordException e1) {
-                                    errorcode=1;
-                                    exceptionmessage="This password is too weak!";
-                                }
-                                catch(FirebaseAuthInvalidCredentialsException e2)
-                                {
-                                    errorcode=2;
-                                    exceptionmessage="This email is invalid!";
-                                }
-                                catch(FirebaseAuthUserCollisionException e3)
-                                {
-                                    errorcode=3;
-                                    exceptionmessage="This email is already in use!";
-                                }
-                                catch (Exception e4)
-                                {
-                                    errorcode=4;
-                                    exceptionmessage="Unknown Error!";
+                                    errorcode = 1;
+                                    exceptionmessage = "This password is too weak!";
+                                } catch (FirebaseAuthInvalidCredentialsException e2) {
+                                    errorcode = 2;
+                                    exceptionmessage = "This email is invalid!";
+                                } catch (FirebaseAuthUserCollisionException e3) {
+                                    errorcode = 3;
+                                    exceptionmessage = "This email is already in use!";
+                                } catch (Exception e4) {
+                                    errorcode = 4;
+                                    exceptionmessage = "Unknown Error!";
                                 }
 
 
-                                Loginstatus=false;
+                                Loginstatus = false;
 
-                                updateUI(null,null);
+                                updateUI(null, null);
                             }
 
                             // ...
@@ -462,31 +452,27 @@ public void setlabels()
             showProgress(false);
         }
 
-        private void updateUI(FirebaseUser user,Exception e) {
+        private void updateUI(FirebaseUser user, Exception e) {
 
-            if(user!=null) {
+            if (user != null) {
 
-                setprofile(user,mUsername);
+                setprofile(user, mUsername);
+                user.sendEmailVerification();
                 finish();
-            }
-            else
-            {
+            } else {
 
-                if (errorcode == 1)
-                {
+                if (errorcode == 1) {
                     mPasswordView.setError(exceptionmessage);
                     mPasswordView.requestFocus();
-                }
-                else
-                {
+                } else {
                     mEmailView.setError(exceptionmessage);
                     mEmailView.requestFocus();
                 }
             }
 
         }
-        private void setprofile(FirebaseUser user,String username)
-        {
+
+        private void setprofile(FirebaseUser user, String username) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(username)
 

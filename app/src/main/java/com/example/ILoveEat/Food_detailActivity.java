@@ -3,49 +3,47 @@ package com.example.ILoveEat;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import android.support.v4.app.FragmentTransaction;
-
 import android.support.v7.app.AppCompatActivity;
-
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Food_detailActivity extends AppCompatActivity implements CommentslistFragment.OnFragmentInteractionListener{
+public class Food_detailActivity extends AppCompatActivity implements CommentslistFragment.OnFragmentInteractionListener {
     private View view;//定义view用来设置fragment的layout
     public RecyclerView mRecyclerView;//定义RecyclerView
     private ArrayList<Comment> commentList = new ArrayList<Comment>();
 
     private RecycleAdapter_comments mRecyclerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
 
         //initRecyclerView();
-       // initData();
+        // initData();
 
     }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
 
     private void initData() {
-        for (int i=0;i<10;i++){
-            Comment comment=new Comment();
+        for (int i = 0; i < 10; i++) {
+            Comment comment = new Comment();
 
-           commentList.add(comment);
+            commentList.add(comment);
         }
     }
+
     private void initRecyclerView() {
         //获取RecyclerView
-        mRecyclerView=(RecyclerView)findViewById(R.id.recyclerview_comments);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_comments);
         //创建adapter
         mRecyclerAdapter = new RecycleAdapter_comments(getBaseContext(), commentList);
         //给RecyclerView设置adapter
@@ -62,16 +60,13 @@ public class Food_detailActivity extends AppCompatActivity implements Commentsli
 
 
                 //Toast.makeText(this,"我是item",Toast.LENGTH_SHORT).show();
-                }
+            }
         });
     }
 
 
-
-
-    public void Startwritecomment(View view)
-    {
-        Intent intent=new Intent(this,WritecommentActivity.class);
+    public void Startwritecomment(View view) {
+        Intent intent = new Intent(this, WritecommentActivity.class);
         startActivity(intent);
     }
 

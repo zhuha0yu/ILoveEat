@@ -82,15 +82,16 @@ public class Messages_main extends Fragment {
     }
 
     private void initData() {
-        for (int i=0;i<8;i++){
-            Messages messages=new Messages();
+        for (int i = 0; i < 8; i++) {
+            Messages messages = new Messages();
             messages.setMessagetype(i);
             messageList.add(messages);
         }
     }
+
     private void initRecyclerView() {
         //获取RecyclerView
-        mRecyclerView=(RecyclerView)view.findViewById(R.id.recyclerview_messages);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_messages);
         //创建adapter
         mRecyclerAdapter = new RecycleAdapter_Messages(getActivity(), messageList);
         //给RecyclerView设置adapter
@@ -105,21 +106,10 @@ public class Messages_main extends Fragment {
             @Override
             public void OnItemClick(View view, Messages data) {
                 //此处进行监听事件的业务处理
-                Toast.makeText(getActivity(),"我是item",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "我是item", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     // TODO: Rename method, update argument and hook method into UI event

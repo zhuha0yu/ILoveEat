@@ -7,7 +7,7 @@ class Messages {
     private Date messagetime = null;
     private Message receivedmessage = null;
 
-     Messages() {
+    Messages() {
 
     }
 

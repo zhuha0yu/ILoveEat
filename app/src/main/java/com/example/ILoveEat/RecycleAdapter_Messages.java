@@ -31,30 +31,15 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
     public myViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
         //创建自定义布局
         View itemView;
-       switch (viewType)
-        {
-            case 0:
-                itemView= View.inflate(context, R.layout.message_commentliked, null);
-                break;
-            case 1:
-                itemView= View.inflate(context, R.layout.message_commentreplied, null);
-                break;
-            case 2:
-                itemView= View.inflate(context, R.layout.message_system, null);
-                break;
-                default:
-                    itemView= View.inflate(context, R.layout.message_system, null);
-                    break;
-
-        }
-
-
+        itemView = View.inflate(context, R.layout.message_layout, null);
         return new myViewHodler(itemView);
     }
+
     @Override
     public int getItemViewType(int position) {
         return messagesList.get(position).getMessagetype();
     }
+
     /**
      * 绑定数据，数据与view绑定
      *
@@ -65,9 +50,30 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
     public void onBindViewHolder(myViewHodler holder, int position) {
         //根据点击位置绑定数据
         Messages data = messagesList.get(position);
-//        holder.mItemGoodsImg;
-//        holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
- //       holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
+        switch (data.getMessagetype()) {
+            case 0:
+                break;
+            case 1:
+                holder.mUserImg.setImageResource(R.drawable.u3);
+                holder.mUserName.setBackgroundColor(0xFFFF8800);
+                holder.mContent1.setText(R.string.text_commentreplied_default);
+                holder.mContent2.setText(R.string.food_comment_reply_dafault);
+
+                break;
+            case 2:
+                holder.mUserImg.setImageResource(R.drawable.systemmessage);
+                holder.mUserName.setBackgroundColor(0xFF00DDFF);
+                holder.mContent1.setText(R.string.system_message_default);
+                holder.mContent2.setVisibility(View.GONE);
+                break;
+            default:
+                holder.mUserImg.setImageResource(R.drawable.systemmessage);
+                holder.mUserName.setBackgroundColor(0xFF00DDFF);
+                holder.mContent1.setText(R.string.system_message_default);
+                holder.mContent2.setVisibility(View.GONE);
+                break;
+        }
+
 
     }
 
@@ -83,24 +89,25 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
 
     //自定义viewhodler
     class myViewHodler extends RecyclerView.ViewHolder {
-        private ImageView mFoodImg;
-        private TextView mFoodName;
-        private TextView mFoodPrice;
+        private ImageView mUserImg;
+        private TextView mUserName;
+        private TextView mContent1;
+        private TextView mContent2;
 
         public myViewHodler(View itemView) {
             super(itemView);
-            mFoodImg = (ImageView) itemView.findViewById(R.id.imageView_food);
-            mFoodName = (TextView) itemView.findViewById(R.id.textView_foodname);
-            mFoodPrice = (TextView) itemView.findViewById(R.id.textView_foodprice);
-            //点击事件放在adapter中使用，也可以写个接口在activity中调用
-            //方法一：在adapter中设置点击事件
+            mUserImg = (ImageView) itemView.findViewById(R.id.imageView_user);
+            mUserName = (TextView) itemView.findViewById(R.id.textView_username);
+            mContent1 = (TextView) itemView.findViewById(R.id.textView_content1);
+            mContent2 = (TextView) itemView.findViewById(R.id.textView_content2);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //可以选择直接在本位置直接写业务处理
                     //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     //此处回传点击监听事件
-                    if(onItemClickListener!=null){
+                    if (onItemClickListener != null) {
                         onItemClickListener.OnItemClick(v, messagesList.get(getLayoutPosition()));
                     }
                 }
