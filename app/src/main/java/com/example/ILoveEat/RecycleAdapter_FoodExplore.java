@@ -1,22 +1,36 @@
 package com.example.ILoveEat;
 
+import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RecycleAdapter_FoodExplore extends RecyclerView.Adapter<RecycleAdapter_FoodExplore.myViewHodler> {
     private Context context;
+    private Fragment fragment;
     private ArrayList<Food> FoodList;
 
     //创建构造函数
-    public RecycleAdapter_FoodExplore(Context context, ArrayList<Food> foodList) {
+    public RecycleAdapter_FoodExplore(Context context, Fragment fragment,ArrayList<Food> foodList) {
         //将传递过来的数据，赋值给本地变量
         this.context = context;//上下文
+        this.fragment=fragment;
         this.FoodList = foodList;//实体类数据ArrayList
     }
 
@@ -47,7 +61,26 @@ public class RecycleAdapter_FoodExplore extends RecyclerView.Adapter<RecycleAdap
 //        holder.mItemGoodsImg;
         holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
         holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
-
+        StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(data.getImageurl());
+        File localFile= null;
+        try {
+            localFile = File.createTempFile(data.getFoodid()+"image","png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File finalLocalFile = localFile;
+        gsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Uri uri=Uri.fromFile(finalLocalFile);
+                holder.mFoodImg.setImageURI(uri);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
     }
 
     /**

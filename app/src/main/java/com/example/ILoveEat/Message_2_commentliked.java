@@ -1,18 +1,18 @@
 package com.example.ILoveEat;
 
-public class Message_commentliked extends Message {
+public class Message_2_commentliked extends Message2 {
     private String uid = null;
     private int liketype = 0;
 
-    public Message_commentliked() {
+    public Message_2_commentliked() {
 
     }
 
-    public Message_commentliked(String uid) {
+    public Message_2_commentliked(String uid) {
         this.uid = uid;
     }
 
-    public Message_commentliked(String uid, int liketype) {
+    public Message_2_commentliked(String uid, int liketype) {
 
         this.uid = uid;
         this.liketype = liketype;

@@ -248,11 +248,9 @@ public class Profile_main extends Fragment {
         String a=photouri.toString();
         StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(photouri.toString());
         File localFile= null;
-        try {
-            localFile = File.createTempFile("usericon","png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+            localFile = new File(getActivity().getCacheDir(),"usericon.png");
+
         File finalLocalFile = localFile;
         gsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override

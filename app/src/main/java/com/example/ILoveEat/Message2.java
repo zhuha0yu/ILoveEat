@@ -1,6 +1,6 @@
 package com.example.ILoveEat;
 
 
-class Message {
+class Message2 {
 
 }

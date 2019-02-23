@@ -1,9 +1,12 @@
 package com.example.ILoveEat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +17,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,9 +44,10 @@ public class Explore_main extends Fragment {
     public RecyclerView mRecyclerView;//定义RecyclerView
     //定义以goodsentity实体类为对象的数据集合
     private ArrayList<Food> foodList = new ArrayList<Food>();
+    private FirebaseFirestore db;
     //自定义recyclerveiw的适配器
     private RecycleAdapter_FoodExplore mRecyclerAdapter;
-
+private Handler mHandler;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -65,6 +76,8 @@ public class Explore_main extends Fragment {
         return fragment;
     }
 
+
+    @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +85,23 @@ public class Explore_main extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        db = FirebaseFirestore.getInstance();
+        mHandler = new Handler(){
+            //继承实现Handler的handleMessage方法，该方法在UI线程中执行
+            @Override
+            public void handleMessage(Message msg) {
+                //根据线程回传的的表示信息做相应的UI处理
+                switch (msg.what){
+                    case 0:
+                        initRecyclerView();
+                        break;
+                    case 1:
 
+                        break;
+                }
+
+            }
+        };
 
     }
 
@@ -82,26 +111,67 @@ public class Explore_main extends Fragment {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_explore_main, container, false);
-        initRecyclerView();
-        initData();
+
+        //setData();
+        getData();
         return view;
 
     }
-
-    private void initData() {
-        for (int i = 0; i < 10; i++) {
-            Food food = new Food();
-            food.setFoodname("模拟数据" + i);
-            food.setFoodprice("100" + i);
-            foodList.add(food);
-        }
+    /*
+private void setData()
+{
+    for (Integer i = 0; i < 10; i++)
+    {
+        Food food = new Food("gs://iloveeat-bf44e.appspot.com/default/foodimg.png", i.toString(),"Food"+i.toString(),"10"+i.toString());
+        db.collection("dishes").document(i.toString()).set(food);
     }
+}
+*/
+private void getData() {
+
+        for (Integer i = 0; i < 10; i++) {
+
+            DocumentReference docRef = db.collection("dishes").document("1");
+            Integer finalI = i;
+            db.collection("dishes").document(i.toString())
+                    .get()
+                    .addOnCompleteListener((OnCompleteListener<DocumentSnapshot>) task -> {
+                        if (task.isSuccessful()) {
+
+                                foodList.add( task.getResult().toObject(Food.class));
+                                if(foodList.size()>=10)
+                                    startload(foodList);
+                            }
+                        }
+                    );
+
+
+
+        }
+
+
+
+
+    }
+    private void startload(ArrayList<Food> foodlist)
+    {
+        String[] ids=new String[10];
+        String[] urls=new String[10];
+        for(int i=0;i<foodlist.size();i++)
+        {
+            ids[i]=foodlist.get(i).getFoodid();
+            urls[i]=foodlist.get(i).getImageurl();
+        }
+        Thread mthread=new LoadThread(urls,ids,mHandler,getActivity().getCacheDir());
+        mthread.start();
+    }
+
 
     private void initRecyclerView() {
         //获取RecyclerView
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_explore);
         //创建adapter
-        mRecyclerAdapter = new RecycleAdapter_FoodExplore(getActivity(), foodList);
+        mRecyclerAdapter = new RecycleAdapter_FoodExplore(getActivity(),this, foodList);
         //给RecyclerView设置adapter
         mRecyclerView.setAdapter(mRecyclerAdapter);
         //设置layoutManager,可以设置显示效果，是线性布局、grid布局，还是瀑布流布局

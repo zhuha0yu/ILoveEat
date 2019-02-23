@@ -5,7 +5,6 @@ public class Food {
     private String foodid;
     private String foodname;
     private String foodprice;
-
     public Food() {
         imageurl = null;
         foodid = null;

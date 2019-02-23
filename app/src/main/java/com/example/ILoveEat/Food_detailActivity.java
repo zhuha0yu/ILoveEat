@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Food_detailActivity extends AppCompatActivity implements CommentslistFragment.OnFragmentInteractionListener {
@@ -23,8 +24,7 @@ public class Food_detailActivity extends AppCompatActivity implements Commentsli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
 
-        //initRecyclerView();
-        // initData();
+
 
     }
 

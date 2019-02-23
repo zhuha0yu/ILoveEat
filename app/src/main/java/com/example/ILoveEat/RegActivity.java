@@ -85,18 +85,13 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_reg);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email_reg);
+        mEmailView = findViewById(R.id.email_reg);
         populateAutoComplete();
-        mPasswordView = (EditText) findViewById(R.id.password_reg);
+        mPasswordView = findViewById(R.id.password_reg);
         mPasswordrepeatView = (EditText) findViewById(R.id.passwordrepeat_reg);
         mUsernameView = (EditText) findViewById(R.id.username_reg);
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_finishreg);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mEmailSignInButton.setOnClickListener(view -> attemptLogin());
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         mLoginFormView = findViewById(R.id.reg_form);

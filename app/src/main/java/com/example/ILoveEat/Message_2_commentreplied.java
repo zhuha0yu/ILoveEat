@@ -1,14 +1,14 @@
 package com.example.ILoveEat;
 
-public class Message_commentreplied extends Message {
+public class Message_2_commentreplied extends Message2 {
     private String uid = null;
     private String replymessage = null;
 
-    public Message_commentreplied() {
+    public Message_2_commentreplied() {
 
     }
 
-    public Message_commentreplied(String uid, String replymessage) {
+    public Message_2_commentreplied(String uid, String replymessage) {
         this.uid = uid;
         this.replymessage = replymessage;
     }

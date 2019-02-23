@@ -17,6 +17,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.ILoveEat.callback.PhotoCallBack;
 import com.example.ILoveEat.util.FileUtils;
@@ -43,6 +44,7 @@ public class ChangeUserIconActivity extends AppCompatActivity {
 
 
     private ImageView ivAvater;
+    private TextView mTextview;
     public PhotoCallBack callBack;
     public String path = "";
     public Uri photoUri;
@@ -62,9 +64,17 @@ public class ChangeUserIconActivity extends AppCompatActivity {
 
         ivAvater = findViewById(R.id.imageView_avater);
         mAuth = FirebaseAuth.getInstance();
+        mTextview=findViewById(R.id.textView_username_avater);
         findViewById(R.id.button_change_avater).setOnClickListener(v -> changeAvater());
+        mTextview.setText(mAuth.getCurrentUser().getDisplayName());
+        setdefaulticon();
     }
+private void setdefaulticon()
+{
+    File localFile = new File(getCacheDir(),"usericon.png");
 
+    ivAvater.setImageURI(Uri.fromFile(localFile));
+}
     private void changeAvater() {
         callBack = new PhotoCallBack() {
             @Override
