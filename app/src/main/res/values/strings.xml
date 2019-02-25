@@ -65,10 +65,10 @@
     <string name="text_foodname">Food Name</string>
     <string name="text_foodprice">Price</string>
     <string name="text_default_0stars">☆☆☆☆☆</string>
-    <string name="text_1stars">☆☆☆☆★</string>
-    <string name="text_2stars">☆☆☆★★</string>
-    <string name="text_3stars">☆☆★★★</string>
-    <string name="text_4stars">☆★★★★</string>
+    <string name="text_1stars">★☆☆☆☆</string>
+    <string name="text_2stars">★★☆☆☆</string>
+    <string name="text_3stars">★★★☆☆</string>
+    <string name="text_4stars">★★★★☆</string>
     <string name="text_5stars">★★★★★</string>
     <string name="text_foodlocation">Location</string>
     <string name="text_commentliked_default">Liked your comment on food \"Default food\":</string>
@@ -169,4 +169,5 @@
     <string name="text_verifyemail">You have not yet verified your email...... Please click the link on E-mail you have received.</string>
     <string name="resend">Resend</string>
     <string name="changeicon">Change your avater</string>
+    <string name="nomessage" >No recent messages!</string>
 </resources>

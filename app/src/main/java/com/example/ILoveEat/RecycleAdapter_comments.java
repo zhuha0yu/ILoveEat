@@ -1,10 +1,14 @@
 package com.example.ILoveEat;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,10 +48,12 @@ public class RecycleAdapter_comments extends RecyclerView.Adapter<RecycleAdapter
     public void onBindViewHolder(myViewHodler holder, int position) {
         //根据点击位置绑定数据
         Comment data = commentList.get(position);
-//        holder.mItemGoodsImg;
-        // holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
-        //   holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
-
+        holder.mCommentcontent.setText(data.getCommentcontent());
+        holder.mPrice.setText(data.getPrice());
+        holder.mRatingbar_sweet.setRating(data.getSweet());
+        holder.mRatingbar_salty.setRating(data.getSalty());
+        holder.mRatingbar_spicy.setRating(data.getSpicy());
+        holder.mRatingbar_overall.setRating(data.getOverall());
     }
 
     /**
@@ -62,15 +68,34 @@ public class RecycleAdapter_comments extends RecyclerView.Adapter<RecycleAdapter
 
     //自定义viewhodler
     class myViewHodler extends RecyclerView.ViewHolder {
-        private ImageView mFoodImg;
-        private TextView mFoodName;
-        private TextView mFoodPrice;
 
+        private TextView mCommentcontent;
+        private TextView mUsername;
+        private TextView mNationality;
+        private TextView mTimestamp;
+        private TextView mPrice;
+        private EditText mReplyComment;
+        private AppCompatImageButton mButton_reply;
+        private RatingBar mRatingbar_sweet;
+        private RatingBar mRatingbar_spicy;
+        private RatingBar mRatingbar_salty;
+        private RatingBar mRatingbar_overall;
+        private View view;
         public myViewHodler(View itemView) {
             super(itemView);
-  /*          mFoodImg = (ImageView) itemView.findViewById(R.id.imageView_food);
-            mFoodName = (TextView) itemView.findViewById(R.id.textView_foodname);
-            mFoodPrice = (TextView) itemView.findViewById(R.id.textView_foodprice);*/
+            this.view=itemView;
+            mReplyComment=itemView.findViewById(R.id.editText_replycomment);
+            mButton_reply=itemView.findViewById(R.id.imageButton_reply);
+            mCommentcontent=itemView.findViewById(R.id.textView_commentcontent);
+            mUsername=itemView.findViewById(R.id.textView_username_comments);
+            mNationality=itemView.findViewById(R.id.textView_nationality);
+            mTimestamp=itemView.findViewById(R.id.textView_time_comments);
+            mPrice= itemView.findViewById(R.id.textView_foodprice_comment);
+            mReplyComment.setVisibility(View.INVISIBLE);
+            mRatingbar_salty=itemView.findViewById(R.id.ratingBar_salty);
+            mRatingbar_spicy=itemView.findViewById(R.id.ratingBar_spicy);
+            mRatingbar_sweet=itemView.findViewById(R.id.ratingBar_sweet);
+            mRatingbar_overall=itemView.findViewById(R.id.ratingBar_overall);
             //点击事件放在adapter中使用，也可以写个接口在activity中调用
             //方法一：在adapter中设置点击事件
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +109,26 @@ public class RecycleAdapter_comments extends RecyclerView.Adapter<RecycleAdapter
                     }
                 }
             });
+            mButton_reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showorhide(mReplyComment);
 
+                }
+            });
+
+        }
+
+        public void showorhide(EditText editText)
+        {
+            if(editText.getVisibility()==View.VISIBLE)
+                editText.setVisibility(View.INVISIBLE);
+            else
+            if(editText.getVisibility()==View.INVISIBLE)
+            {
+                editText.setVisibility(View.VISIBLE);
+            editText.requestFocus();
+            }
         }
     }
 

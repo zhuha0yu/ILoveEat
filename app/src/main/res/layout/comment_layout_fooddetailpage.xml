@@ -15,7 +15,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageView_usericon_comments"
                 android:layout_width="48dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -26,43 +26,43 @@
                 app:srcCompat="@drawable/usericon" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView_username_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/username"
-                app:layout_constraintBottom_toTopOf="@+id/textView4"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+                app:layout_constraintBottom_toTopOf="@+id/textView_nationality"
+                app:layout_constraintStart_toEndOf="@+id/imageView_usericon_comments"
+                app:layout_constraintTop_toTopOf="@+id/imageView_usericon_comments" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView_nationality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/nationality"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-                app:layout_constraintStart_toEndOf="@+id/imageView3" />
+                app:layout_constraintBottom_toBottomOf="@+id/imageView_usericon_comments"
+                app:layout_constraintStart_toEndOf="@+id/imageView_usericon_comments" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView_time_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/messagetime_default"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView_nationality"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/imageView_comment_content"
                 android:layout_width="144dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView_commentcontent"
                 app:srcCompat="@drawable/p2_1" />
 
             <EditText
@@ -74,7 +74,7 @@
                 android:ems="10"
                 android:inputType="textMultiLine"
                 app:layout_constraintEnd_toStartOf="@+id/imageButton3"
-                app:layout_constraintStart_toEndOf="@+id/imageButton4"
+                app:layout_constraintStart_toEndOf="@+id/imageButton_reply"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <ImageButton
@@ -93,7 +93,7 @@
                 app:srcCompat="@drawable/baseline_thumb_up_black_24" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/imageButton_reply"
                 android:layout_width="36dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="8dp"
@@ -113,8 +113,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/sweet"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                app:layout_constraintStart_toEndOf="@+id/imageView_comment_content"
+                app:layout_constraintTop_toBottomOf="@+id/textView_commentcontent" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -123,7 +123,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/spicy"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/imageView_comment_content"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <TextView
@@ -133,7 +133,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/salty"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/imageView_comment_content"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
             <TextView
@@ -143,43 +143,64 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/price"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/imageView_comment_content"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
             <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/text_2stars"
-                app:layout_constraintStart_toEndOf="@+id/textView9"
-                app:layout_constraintTop_toTopOf="@+id/textView9" />
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/text_3stars"
-                android:textAlignment="textEnd"
-                app:layout_constraintEnd_toEndOf="@+id/textView13"
-                app:layout_constraintTop_toTopOf="@+id/textView10" />
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/text_2stars"
-                android:textAlignment="textEnd"
-                app:layout_constraintEnd_toEndOf="@+id/textView14"
-                app:layout_constraintTop_toTopOf="@+id/textView11" />
-
-            <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/textView_foodprice_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/default_price"
-                app:layout_constraintEnd_toEndOf="@+id/textView15"
+                app:layout_constraintEnd_toEndOf="@+id/ratingBar_salty"
                 app:layout_constraintTop_toTopOf="@+id/textView12" />
+
+            <TextView
+                android:id="@+id/textView_commentcontent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/food_comment_dafault"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView_usericon_comments" />
+
+            <RatingBar
+                android:id="@+id/ratingBar_sweet"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                app:layout_constraintStart_toEndOf="@+id/textView9" />
+
+            <RatingBar
+                android:id="@+id/ratingBar_spicy"
+                style="@android:style/Widget.Material.Light.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                app:layout_constraintEnd_toEndOf="@+id/ratingBar_sweet" />
+
+            <RatingBar
+                android:id="@+id/ratingBar_salty"
+                style="@android:style/Widget.Material.Light.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/textView11"
+                app:layout_constraintEnd_toEndOf="@+id/ratingBar_spicy" />
+
+            <RatingBar
+                android:id="@+id/ratingBar_overall"
+                style="@android:style/Widget.Material.Light.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

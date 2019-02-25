@@ -9,7 +9,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
-public class LoadThread extends Thread {
+public class LoadCommentThread extends Thread {
     private String[] urls = null;
     private String[] ids = null;
     //UI线程中传递的参数用于向UI线程传递消息和数据
@@ -18,7 +18,7 @@ public class LoadThread extends Thread {
     private final int numbers;
     private static int howmany = 0;
 
-    public LoadThread(String[] urls, String[] ids, Handler mHandler, File cachedir) {
+    public LoadCommentThread(String[] urls, String[] ids, Handler mHandler, File cachedir) {
         this.urls = urls;
         this.mHandler = mHandler;
         this.cachedir = cachedir;

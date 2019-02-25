@@ -3,6 +3,7 @@ package com.example.ILoveEat;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,9 +23,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.lang.ref.WeakReference;
+
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -47,7 +53,7 @@ public class Explore_main extends Fragment {
     private FirebaseFirestore db;
     //自定义recyclerveiw的适配器
     private RecycleAdapter_FoodExplore mRecyclerAdapter;
-private Handler mHandler;
+    private Handler mHandler;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -112,26 +118,45 @@ private Handler mHandler;
 
         view = inflater.inflate(R.layout.fragment_explore_main, container, false);
 
-        //setData();
+
+        setData2();
         getData();
         return view;
 
     }
-    /*
+
 private void setData()
 {
+    ArrayList<String> comments=new ArrayList<>();
+    comments.add("0");
+    comments.add("1");
+    comments.add("2");
+    comments.add("3");
+
     for (Integer i = 0; i < 10; i++)
     {
-        Food food = new Food("gs://iloveeat-bf44e.appspot.com/default/foodimg.png", i.toString(),"Food"+i.toString(),"10"+i.toString());
+        Food food = new Food("gs://iloveeat-bf44e.appspot.com/default/foodimg.png", i.toString(),"Food"+i.toString(),"10"+i.toString()+"kr",comments,i%3+2,(i+1)%3+2,(i+2%3+2),i%2+3);
         db.collection("dishes").document(i.toString()).set(food);
     }
 }
-*/
+    private void setData2()
+    {
+        String[] content={"I love it!","It is spicy","i hate it","So sweet!"};
+
+
+        for (Integer i = 0; i < 4; i++)
+        {
+
+
+            Comment comment=new Comment(i*7+4,"hsxslEmCgBQqhCJaoB5BiavvQJ92",i.toString(),"gs://iloveeat-bf44e.appspot.com/default/foodimg.png",content[i],"10"+i.toString()+"kr", System.currentTimeMillis(),i%3+2,(i+1)%3+2,(i+2%3+2),i%2+3);
+            db.collection("comment").document(i.toString()).set(comment);
+        }
+    }
 private void getData() {
 
         for (Integer i = 0; i < 10; i++) {
 
-            DocumentReference docRef = db.collection("dishes").document("1");
+
             Integer finalI = i;
             db.collection("dishes").document(i.toString())
                     .get()
@@ -185,7 +210,7 @@ private void getData() {
             public void OnItemClick(View view, Food data) {
                 //此处进行监听事件的业务处理
                 Intent intent = new Intent(getActivity(), Food_detailActivity.class);
-
+                intent.putExtra("food",data);
                 startActivity(intent);
             }
         });

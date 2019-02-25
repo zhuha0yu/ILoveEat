@@ -25,7 +25,7 @@
             app:title="Title (DATA)">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageview_fooddetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -78,7 +78,7 @@
                     android:background="@drawable/card_plaid">
 
                     <TextView
-                        android:id="@+id/food_name"
+                        android:id="@+id/food_name_detail"
                         style="?android:attr/textAppearanceLarge"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/food_address"
+                        android:id="@+id/food_address_detail"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -105,10 +105,10 @@
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/food_name" />
+                        app:layout_constraintTop_toBottomOf="@+id/food_name_detail" />
 
                     <TextView
-                        android:id="@+id/food_price"
+                        android:id="@+id/food_price_detail"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -119,10 +119,10 @@
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/food_address" />
+                        app:layout_constraintTop_toBottomOf="@+id/food_address_detail" />
 
                     <TextView
-                        android:id="@+id/food_description"
+                        android:id="@+id/food_description_detail"
                         style="?android:attr/textAppearanceMedium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                         android:textSize="14sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/food_price" />
+                        app:layout_constraintTop_toBottomOf="@+id/food_price_detail" />
 
 
                 </android.support.constraint.ConstraintLayout>

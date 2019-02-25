@@ -3,6 +3,7 @@ package com.example.ILoveEat;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -24,16 +32,17 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Messages_main extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static int number_of_messages=0;
+    private ArrayList<String> messagedatalist=new ArrayList<>();
     private View view;//定义view用来设置fragment的layout
     public RecyclerView mRecyclerView;//定义RecyclerView
     private ArrayList<Messages> messageList = new ArrayList<Messages>();
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private RecycleAdapter_Messages mRecyclerAdapter;
-    // TODO: Rename and change types of parameters
+    private FirebaseAuth mAuth;
     private String mParam1;
     private String mParam2;
 
@@ -68,6 +77,21 @@ public class Messages_main extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAuth=FirebaseAuth.getInstance();
+        DocumentReference docref=db.collection("user").document(mAuth.getCurrentUser().getUid());
+
+        docref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                messagedatalist=(ArrayList<String>)task.getResult().get("messageid");
+                number_of_messages=messagedatalist.size();
+                initData();
+                if(number_of_messages==0)
+                    getActivity().findViewById(R.id.textView_recentmessage).setVisibility(View.VISIBLE);
+            }
+        });
+
+
     }
 
     @Override
@@ -76,19 +100,52 @@ public class Messages_main extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_messages_main, container, false);
 
-        initRecyclerView();
-        initData();
+
+
+
         return view;
     }
+@Override
+public void onStart()
+{
 
+    super.onStart();
+}
     private void initData() {
-        for (int i = 0; i < 8; i++) {
-            Messages messages = new Messages();
-            messages.setMessagetype(i);
-            messageList.add(messages);
+        for(int i=0;i<number_of_messages;i++)
+        {
+            DocumentReference docref=db.collection("message").document(messagedatalist.get(i));
+
+                    docref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if(task.isSuccessful())
+                    {
+
+                        messageList.add(task.getResult().toObject(Messages.class));
+                        if(messageList.size()>=number_of_messages)
+                            initRecyclerView();
+                        if(number_of_messages==0)
+                            getActivity().findViewById(R.id.textView_recentmessage).setVisibility(View.VISIBLE);
+                        else
+                            getActivity().findViewById(R.id.textView_recentmessage).setVisibility(View.GONE);
+                    }
+                }
+            });
+
+
         }
     }
-
+@Override
+public void onResume()
+{
+    if(number_of_messages==0)
+        getActivity().findViewById(R.id.textView_recentmessage).setVisibility(View.VISIBLE);
+    else
+        getActivity().findViewById(R.id.textView_recentmessage).setVisibility(View.GONE);
+    super.onResume();
+}
     private void initRecyclerView() {
         //获取RecyclerView
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_messages);
@@ -111,8 +168,6 @@ public class Messages_main extends Fragment {
         });
     }
 
-
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

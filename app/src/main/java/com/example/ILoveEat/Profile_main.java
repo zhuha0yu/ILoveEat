@@ -245,25 +245,27 @@ public class Profile_main extends Fragment {
             return;
         }
         Uri photouri=currentUser.getPhotoUrl();
-        String a=photouri.toString();
-        StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(photouri.toString());
-        File localFile= null;
 
-            localFile = new File(getActivity().getCacheDir(),"usericon.png");
+            String a = photouri.toString();
+            StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(photouri.toString());
+            File localFile = null;
 
-        File finalLocalFile = localFile;
-        gsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                Uri uri=Uri.fromFile(finalLocalFile);
-                mImg_user.setImageURI(uri);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+            localFile = new File(getActivity().getCacheDir(), "usericon.png");
+
+            File finalLocalFile = localFile;
+            gsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Uri uri = Uri.fromFile(finalLocalFile);
+                    mImg_user.setImageURI(uri);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any errors
+                }
+            });
+
 
 
 

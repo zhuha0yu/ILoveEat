@@ -37,7 +37,7 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
 
     @Override
     public int getItemViewType(int position) {
-        return messagesList.get(position).getMessagetype();
+        return (int)messagesList.get(position).getMessagetype();
     }
 
     /**
@@ -50,7 +50,7 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
     public void onBindViewHolder(myViewHodler holder, int position) {
         //根据点击位置绑定数据
         Messages data = messagesList.get(position);
-        switch (data.getMessagetype()) {
+        switch ((int)data.getMessagetype()) {
             case 0:
                 break;
             case 1:
@@ -63,6 +63,7 @@ public class RecycleAdapter_Messages extends RecyclerView.Adapter<RecycleAdapter
             case 2:
                 holder.mUserImg.setImageResource(R.drawable.systemmessage);
                 holder.mUserName.setBackgroundColor(0xFF00DDFF);
+                holder.mUserName.setText(data.getUsername());
                 holder.mContent1.setText(R.string.system_message_default);
                 holder.mContent2.setVisibility(View.GONE);
                 break;

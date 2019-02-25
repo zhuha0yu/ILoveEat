@@ -39,6 +39,9 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -78,9 +81,10 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
     private View mLoginFormView;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
+    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+         db= FirebaseFirestore.getInstance();
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_reg);
@@ -452,8 +456,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
             if (user != null) {
 
                 setprofile(user, mUsername);
-                user.sendEmailVerification();
-                finish();
+
             } else {
 
                 if (errorcode == 1) {
@@ -470,7 +473,7 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
         private void setprofile(FirebaseUser user, String username) {
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(username)
-
+                    .setPhotoUri(Uri.parse("gs://iloveeat-bf44e.appspot.com/default/usericon.png"))
                     .build();
 
             user.updateProfile(profileUpdates)
@@ -478,7 +481,11 @@ public class RegActivity extends AppCompatActivity implements LoaderCallbacks<Cu
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Log.d("updateprofile", "User profile updated.");
+                                user.sendEmailVerification();
+                                DocumentReference docref=db.collection("user").document(user.getUid());
+                                Userdata newuser=new Userdata(mUsername,user.getUid(),"gs://iloveeat-bf44e.appspot.com/default/usericon.png");
+                                docref.set(newuser);
+                                finish();
                             }
                         }
                     });

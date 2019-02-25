@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -62,25 +63,12 @@ public class RecycleAdapter_FoodExplore extends RecyclerView.Adapter<RecycleAdap
         holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
         holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
         StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(data.getImageurl());
-        File localFile= null;
-        try {
-            localFile = File.createTempFile(data.getFoodid()+"image","png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        File finalLocalFile = localFile;
-        gsReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                Uri uri=Uri.fromFile(finalLocalFile);
+        holder.mFoodStars.setRating((float)data.getOverall());
+        File localFile= new File(context.getCacheDir(),"food"+data.getFoodid()+"image");
+
+                Uri uri=Uri.fromFile(localFile);
                 holder.mFoodImg.setImageURI(uri);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+
     }
 
     /**
@@ -98,9 +86,10 @@ public class RecycleAdapter_FoodExplore extends RecyclerView.Adapter<RecycleAdap
         private ImageView mFoodImg;
         private TextView mFoodName;
         private TextView mFoodPrice;
-
+        private RatingBar mFoodStars;
         public myViewHodler(View itemView) {
             super(itemView);
+            mFoodStars=itemView.findViewById(R.id.ratingBar_explore);
             mFoodImg = (ImageView) itemView.findViewById(R.id.imageView_food);
             mFoodName = (TextView) itemView.findViewById(R.id.textView_foodname);
             mFoodPrice = (TextView) itemView.findViewById(R.id.textView_foodprice);

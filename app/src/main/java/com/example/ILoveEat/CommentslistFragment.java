@@ -1,9 +1,11 @@
 package com.example.ILoveEat;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -27,6 +40,7 @@ public class CommentslistFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private View view;//定义view用来设置fragment的layout
     public RecyclerView mRecyclerView;//定义RecyclerView
     //定义以goodsentity实体类为对象的数据集合
@@ -36,9 +50,11 @@ public class CommentslistFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private String foodid;
+    private int numbers=0;
+    private String[] commentid;
     private OnFragmentInteractionListener mListener;
-
+    boolean isinit=false;
     public CommentslistFragment() {
         // Required empty public constructor
     }
@@ -75,17 +91,43 @@ public class CommentslistFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_commentslist, container, false);
-        initRecyclerView();
-        initData();
+
+
+
         return view;
+    }
+    @Override
+    public void onStart()
+    {
+        Food_detailActivity a=(Food_detailActivity) getActivity();
+        foodid=a.foodid;
+        commentid=a.commentid;
+        super.onStart();
+        if(!isinit)
+
+        {
+        initData();
+        isinit=true;
+        }
     }
 
     private void initData() {
-        for (int i = 0; i < 10; i++) {
-            Comment comment = new Comment();
+        for(int i=0;i<commentid.length;i++) {
+            DocumentReference docRef = db.collection("comment").document(commentid[i]);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
 
-            commentList.add(comment);
+                            commentList.add(task.getResult().toObject(Comment.class));
+                            if(commentList.size()>=commentid.length)initRecyclerView();
+
+                    }
+                }
+            });
         }
+
+
     }
 
     private void initRecyclerView() {
