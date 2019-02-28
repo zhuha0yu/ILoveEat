@@ -25,22 +25,28 @@
     <string name="btn_nationality_2">Nationality▲</string>
     <string name="warn_repeatpass">Repeat password must be same</string>
     <string-array name="Nationality">
-        <item>Nationality</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
+        <item>Region</item>
+        <item>Asia</item>
+        <item>N.Americam</item>
+        <item>Europe</item>
+        <item>Oceania</item>
+        <item>Africa</item>
+        <item>S.Americam</item>
+        <item>Antarctica</item>
     </string-array>
     <string-array name="Prefer">
         <item>Prefer</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
+        <item>Salty</item>
+        <item>Sweet</item>
+        <item>Spicy</item>
     </string-array>
     <string-array name="Price">
         <item>Price</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
+        <item>&lt;50</item>
+        <item>50-100</item>
+        <item>100-200</item>
+        <item>200-300</item>
+        <item>&gt;300</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->

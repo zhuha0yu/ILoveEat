@@ -51,7 +51,7 @@ public class Food_detailActivity extends AppCompatActivity implements Commentsli
         mTextview_fooddescription=findViewById(R.id.food_description_detail);
         mTextview_foodname=findViewById(R.id.food_name_detail);
         mTextview_foodprice=findViewById(R.id.food_price_detail);
-        mTextview_foodprice.setText(food.getFoodprice());
+        mTextview_foodprice.setText(food.getFoodprice().toString()+"kr");
         mTextview_foodname.setText(food.getFoodname());
         File localFile =  new File(getCacheDir(), "food"+food.getFoodid()+"image");
         mImageview_detail.setImageURI(Uri.fromFile(localFile));
@@ -97,6 +97,7 @@ public class Food_detailActivity extends AppCompatActivity implements Commentsli
 
     public void Startwritecomment(View view) {
         Intent intent = new Intent(this, WritecommentActivity.class);
+        intent.putExtra("dishid",food.getFoodid());
         startActivity(intent);
     }
     public String getfoodid()

@@ -61,7 +61,7 @@ public class RecycleAdapter_FoodExplore extends RecyclerView.Adapter<RecycleAdap
         Food data = FoodList.get(position);
 //        holder.mItemGoodsImg;
         holder.mFoodName.setText(data.getFoodname());//获取实体类中的name字段并设置
-        holder.mFoodPrice.setText(data.getFoodprice());//获取实体类中的price字段并设置
+        holder.mFoodPrice.setText(data.getFoodprice().toString()+"kr");//获取实体类中的price字段并设置
         StorageReference gsReference = FirebaseStorage.getInstance().getReferenceFromUrl(data.getImageurl());
         holder.mFoodStars.setRating((float)data.getOverall());
         File localFile= new File(context.getCacheDir(),"food"+data.getFoodid()+"image");

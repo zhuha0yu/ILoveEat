@@ -8,21 +8,23 @@ public class Food implements Serializable {
     private String imageurl;
     private String foodid;
     private String foodname;
-    private String foodprice;
+    private Integer foodprice;
     private ArrayList<String> commentid;
-    private float sweet;
-    private float spicy;
-    private float salty;
-    private double overall;
+    private Float sweet;
+    private Float spicy;
+    private Float salty;
+    private Float overall;
+    private Float asia;
+    private Float europe;
     public Food() {
         commentid=null;
         imageurl = null;
         foodid = null;
         foodname = null;
-        foodprice = "1kr";
+        foodprice = 100;
     }
 
-    public Food(String imageurl, String foodid, String foodname, String foodprice,ArrayList<String> commentid,int sweet,int spicy,int salty,int overall) {
+    public Food(String imageurl, String foodid, String foodname, Integer foodprice,ArrayList<String> commentid,Float sweet,Float spicy,Float salty,Float overall) {
         this.imageurl = imageurl;
         this.foodid = foodid;
         this.foodname = foodname;
@@ -34,6 +36,22 @@ public class Food implements Serializable {
         this.overall=overall;
     }
 
+    public Float getAsia() {
+        return asia;
+    }
+
+    public Float getEurope() {
+        return europe;
+    }
+
+    public void setAsia(Float asia) {
+        this.asia = asia;
+    }
+
+    public void setEurope(Float europe) {
+        this.europe = europe;
+    }
+
     public void setFoodid(String foodid) {
         this.foodid = foodid;
     }
@@ -42,7 +60,7 @@ public class Food implements Serializable {
         this.foodname = foodname;
     }
 
-    public void setFoodprice(String foodprice) {
+    public void setFoodprice(Integer foodprice) {
         this.foodprice = foodprice;
     }
 
@@ -50,35 +68,35 @@ public class Food implements Serializable {
         this.imageurl = imageurl;
     }
 
-    public void setOverall(double overall) {
+    public void setOverall(Float overall) {
         this.overall = overall;
     }
 
-    public double getOverall() {
+    public Float getOverall() {
         return overall;
     }
 
-    public float getSweet() {
+    public Float getSweet() {
         return sweet;
     }
 
-    public float getSpicy() {
+    public Float getSpicy() {
         return spicy;
     }
 
-    public float getSalty() {
+    public Float getSalty() {
         return salty;
     }
 
-    public void setSalty(float salty) {
+    public void setSalty(Float salty) {
         this.salty = salty;
     }
 
-    public void setSpicy(float spicy) {
+    public void setSpicy(Float spicy) {
         this.spicy = spicy;
     }
 
-    public void setSweet(float sweet) {
+    public void setSweet(Float sweet) {
         this.sweet = sweet;
     }
 
@@ -98,7 +116,7 @@ public class Food implements Serializable {
         return foodid;
     }
 
-    public String getFoodprice() {
+    public Integer getFoodprice() {
         return foodprice;
     }
 

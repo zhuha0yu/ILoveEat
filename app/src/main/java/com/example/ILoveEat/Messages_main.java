@@ -78,6 +78,7 @@ public class Messages_main extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mAuth=FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null){
         DocumentReference docref=db.collection("user").document(mAuth.getCurrentUser().getUid());
 
         docref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -90,6 +91,7 @@ public class Messages_main extends Fragment {
                     getActivity().findViewById(R.id.textView_recentmessage).setVisibility(View.VISIBLE);
             }
         });
+        }
 
 
     }

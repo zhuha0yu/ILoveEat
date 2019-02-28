@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +52,7 @@ public class Explore_main extends Fragment {
     public RecyclerView mRecyclerView;//定义RecyclerView
     //定义以goodsentity实体类为对象的数据集合
     private ArrayList<Food> foodList = new ArrayList<Food>();
+    private ArrayList<Food> foodListoriginal = new ArrayList<Food>();
     private FirebaseFirestore db;
     //自定义recyclerveiw的适配器
     private RecycleAdapter_FoodExplore mRecyclerAdapter;
@@ -135,8 +138,8 @@ private void setData()
 
     for (Integer i = 0; i < 10; i++)
     {
-        Food food = new Food("gs://iloveeat-bf44e.appspot.com/default/foodimg.png", i.toString(),"Food"+i.toString(),"10"+i.toString()+"kr",comments,i%3+2,(i+1)%3+2,(i+2%3+2),i%2+3);
-        db.collection("dishes").document(i.toString()).set(food);
+        //Food food = new Food("gs://iloveeat-bf44e.appspot.com/default/foodimg.png", i.toString(),"Food"+i.toString(),"10"+i.toString()+"kr",comments,(float)i%3+2,(float)(i+1)%3+2,(float)(i+2%3+2),(float)i%2+3);
+        //db.collection("dishes").document(i.toString()).set(food);
     }
 }
     private void setData2()
@@ -162,8 +165,9 @@ private void getData() {
                     .get()
                     .addOnCompleteListener((OnCompleteListener<DocumentSnapshot>) task -> {
                         if (task.isSuccessful()) {
-
-                                foodList.add( task.getResult().toObject(Food.class));
+                                Food food=task.getResult().toObject(Food.class);
+                                foodList.add(food);
+                                foodListoriginal.add(food);
                                 if(foodList.size()>=10)
                                     startload(foodList);
                             }
@@ -267,21 +271,215 @@ private void getData() {
 
     public void setSpi() {
 
-        Spinner spinner = (Spinner) getActivity().findViewById(R.id.spi_nationality);
+        Spinner spinner1 = (Spinner) getActivity().findViewById(R.id.spi_nationality);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.Nationality, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinner1.setAdapter(adapter);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        spinner = (Spinner) getActivity().findViewById(R.id.spi_prefer);
+                if(mRecyclerAdapter!=null)mRecyclerAdapter.notifyDataSetChanged();
+switch (position)
+{
+    case 1:foodList.sort(new CompareAsia(true));break;
+    case 3:foodList.sort(new CompareEurope(true));break;
+    default:foodList.sort(new CompareAll(true));
+}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        Spinner spinner2 = (Spinner) getActivity().findViewById(R.id.spi_prefer);
         adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.Prefer, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinner2.setAdapter(adapter);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        spinner = (Spinner) getActivity().findViewById(R.id.spi_price);
+                switch (position) {
+                    case 0:
+                        foodList.sort(new CompareAll(true));
+                        break;
+                    case 1:
+                        foodList.sort(new CompareSalty(true));
+                        break;
+                    case 2:
+                        foodList.sort(new CompareSweet(true));
+                        break;
+                    case 3:
+                        foodList.sort(new CompareSpicy(true));
+                        break;
+                }
+                if(mRecyclerAdapter!=null)mRecyclerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        Spinner spinner3 = (Spinner) getActivity().findViewById(R.id.spi_price);
         adapter = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.Price, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinner3.setAdapter(adapter);
+        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                foodList.clear();
+                foodList.addAll(foodListoriginal);
+                int low=0;int high=1000;
+                switch (position)
+                {
+                    case 0:
+                        low=0;
+                        high=Integer.MAX_VALUE;
+                        break;
+                    case 1:
+                        low=0;
+                        high=50;
+                        break;
+                    case 2:
+                        low=50;
+                        high=100;
+                        break;
+                    case 3:
+                        low=100;
+                        high=200;
+                        break;
+                    case 4:
+                        low=200;
+                        high=300;
+                        break;
+                    case 5:
+                        low=300;
+                        high=Integer.MAX_VALUE;
+                        break;
+                }
+                for(int i=foodList.size()-1;i>=0;i--)
+                    if(foodList.get(i).getFoodprice()<low||foodList.get(i).getFoodprice()>=high)
+                        foodList.remove(i);
+                if(mRecyclerAdapter!=null)mRecyclerAdapter.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                foodList.clear();
+                foodList.addAll(foodListoriginal);
+            }
+        });
 
     }
+
+    private final class CompareSpicy implements Comparator<Food> {
+        boolean is_Ascend;
+
+        public CompareSpicy(boolean b) {
+            // TODO Auto-generated constructor stub
+            is_Ascend = b;
+        }
+
+        @Override
+        public int compare(Food o1, Food o2) {
+            // TODO Auto-generated method stub
+            if (is_Ascend)
+                return o1.getSpicy().compareTo(o2.getSpicy());
+            else
+                return o2.getSpicy().compareTo(o1.getSpicy());
+        }
+    }
+    private final class CompareSweet implements Comparator<Food> {
+        boolean is_Ascend;
+
+        public CompareSweet(boolean b) {
+            // TODO Auto-generated constructor stub
+            is_Ascend = b;
+        }
+
+        @Override
+        public int compare(Food o1, Food o2) {
+            // TODO Auto-generated method stub
+            if (is_Ascend)
+                return o1.getSweet().compareTo(o2.getSweet());
+            else
+                return o2.getSweet().compareTo(o1.getSweet());
+        }
+    }
+    private final class CompareSalty implements Comparator<Food> {
+        boolean is_Ascend;
+
+        public CompareSalty(boolean b) {
+            // TODO Auto-generated constructor stub
+            is_Ascend = b;
+        }
+
+        @Override
+        public int compare(Food o1, Food o2) {
+            // TODO Auto-generated method stub
+            if (is_Ascend)
+                return o1.getSalty().compareTo(o2.getSalty());
+            else
+                return o2.getSalty().compareTo(o1.getSalty());
+        }
+    }
+    private final class CompareAll implements Comparator<Food> {
+        boolean is_Ascend;
+
+        public CompareAll(boolean b) {
+            // TODO Auto-generated constructor stub
+            is_Ascend = b;
+        }
+
+        @Override
+        public int compare(Food o1, Food o2) {
+            // TODO Auto-generated method stub
+            if (is_Ascend)
+                return o1.getOverall().compareTo(o2.getOverall());
+            else
+                return o2.getOverall().compareTo(o1.getOverall());
+        }
+    }
+    private final class CompareAsia implements Comparator<Food> {
+        boolean is_Ascend;
+
+        public CompareAsia(boolean b) {
+            // TODO Auto-generated constructor stub
+            is_Ascend = b;
+        }
+
+        @Override
+        public int compare(Food o1, Food o2) {
+            // TODO Auto-generated method stub
+            if (is_Ascend)
+                return o1.getAsia().compareTo(o2.getAsia());
+            else
+                return o2.getAsia().compareTo(o1.getAsia());
+        }
+    }
+    private final class CompareEurope implements Comparator<Food> {
+        boolean is_Ascend;
+
+        public CompareEurope(boolean b) {
+            // TODO Auto-generated constructor stub
+            is_Ascend = b;
+        }
+
+        @Override
+        public int compare(Food o1, Food o2) {
+            // TODO Auto-generated method stub
+            if (is_Ascend)
+                return o1.getEurope().compareTo(o2.getEurope());
+            else
+                return o2.getEurope().compareTo(o1.getEurope());
+        }
+    }
+
+
+
 }
 
